@@ -31,15 +31,5 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_dialog_email" />
 
-<<<<<<< HEAD
-    <com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/slidingMenu">
 
-
-    </com.jeremyfeinstein.slidingmenu.lib.SlidingMenu>
-
-=======
->>>>>>> origin/master
 </android.support.design.widget.CoordinatorLayout>
