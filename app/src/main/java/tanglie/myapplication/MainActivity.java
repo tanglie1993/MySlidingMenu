@@ -3,6 +3,8 @@ package tanglie.myapplication;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import tanglie.myapplication.slidingmenu.SlidingMenu;
 
@@ -28,7 +30,11 @@ public class MainActivity extends Activity {
         mSlidingMenu.setBehindScrollScale(0.25f);
         mSlidingMenu.setFadeDegree(0.25f);
 
-        mSlidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        ViewGroup contentParent = (ViewGroup) findViewById(android.R.id.content);
+        View content = contentParent.getChildAt(0);
+        contentParent.removeView(content);
+        contentParent.addView(mSlidingMenu);
+        mSlidingMenu.setContent(content);
     }
 
 }
