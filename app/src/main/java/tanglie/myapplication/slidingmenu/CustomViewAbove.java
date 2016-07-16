@@ -114,26 +114,6 @@ public class CustomViewAbove extends ViewGroup {
 
 	}
 
-	/**
-	 * Simple implementation of the {@link OnPageChangeListener} interface with stub
-	 * implementations of each method. Extend this if you do not intend to override
-	 * every method of {@link OnPageChangeListener}.
-	 */
-	public static class SimpleOnPageChangeListener implements OnPageChangeListener {
-
-		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-			// This space for rent
-		}
-
-		public void onPageSelected(int position) {
-			// This space for rent
-		}
-
-		public void onPageScrollStateChanged(int state) {
-			// This space for rent
-		}
-
-	}
 
 	public CustomViewAbove(Context context) {
 		this(context, null);
@@ -159,16 +139,6 @@ public class CustomViewAbove extends ViewGroup {
 		mFlingDistance = (int) (MIN_DISTANCE_FOR_FLING * density);
 	}
 
-	/**
-	 * Set the currently selected page. If the CustomViewPager has already been through its first
-	 * layout there will be a smooth animated transition between the current item and the
-	 * specified item.
-	 *
-	 * @param item Item index to select
-	 */
-	public void setCurrentItem(int item) {
-		setCurrentItemInternal(item, true, false);
-	}
 
 	/**
 	 * Set the currently selected page.
@@ -314,18 +284,6 @@ public class CustomViewAbove extends ViewGroup {
 		mContent.measure(contentWidth, contentHeight);
 	}
 
-//	@Override
-//	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-//		super.onSizeChanged(w, h, oldw, oldh);
-//		// Make sure scroll position is set correctly.
-//		if (w != oldw) {
-//			// [ChrisJ] - This fixes the onConfiguration change for orientation issue..
-//			// maybe worth having a look why the recomputeScroll pos is screwing
-//			// up?
-//			completeScroll();
-//			scrollTo(getDestScrollX(mCurItem), getScrollY());
-//		}
-//	}
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -336,52 +294,10 @@ public class CustomViewAbove extends ViewGroup {
 
 	@Override
 	public void computeScroll() {
-		if (!mScroller.isFinished()) {
-			if (mScroller.computeScrollOffset()) {
-				int oldX = getScrollX();
-				int oldY = getScrollY();
-				int x = mScroller.getCurrX();
-				int y = mScroller.getCurrY();
-
-				if (oldX != x || oldY != y) {
-					scrollTo(x, y);
-					pageScrolled(x);
-				}
-
-				// Keep on drawing until the animation has finished.
-				invalidate();
-				return;
-			}
-		}
-
-		// Done with scroll, clean up state.
-		completeScroll();
-	}
-
-	private void pageScrolled(int xpos) {
-		final int widthWithMargin = getWidth();
-		final int position = xpos / widthWithMargin;
-		final int offsetPixels = xpos % widthWithMargin;
-		final float offset = (float) offsetPixels / widthWithMargin;
-
-		onPageScrolled(position, offset, offsetPixels);
-	}
-
-	/**
-	 * This method will be invoked when the current page is scrolled, either as part
-	 * of a programmatically initiated smooth scroll or a user initiated touch scroll.
-	 * If you override this method you must call through to the superclass implementation
-	 * (e.g. super.onPageScrolled(position, offset, offsetPixels)) before onPageScrolled
-	 * returns.
-	 *
-	 * @param position Position index of the first page currently being displayed.
-	 *                 Page position+1 will be visible if positionOffset is nonzero.
-	 * @param offset Value from [0, 1) indicating the offset from the page at position.
-	 * @param offsetPixels Value in pixels indicating the offset from position.
-	 */
-	protected void onPageScrolled(int position, float offset, int offsetPixels) {
 
 	}
+
+
 
 	private void completeScroll() {
 		boolean needPopulate = mScrolling;
@@ -431,19 +347,7 @@ public class CustomViewAbove extends ViewGroup {
 		((SlidingMenu)getParent()).manageLayers(getPercentOpen());
 	}
 
-	private int determineTargetPage(float pageOffset, int velocity, int deltaX) {
-		int targetPage = mCurItem;
-		if (Math.abs(deltaX) > mFlingDistance && Math.abs(velocity) > mMinimumVelocity) {
-			if (velocity > 0 && deltaX > 0) {
-				targetPage -= 1;
-			} else if (velocity < 0 && deltaX < 0){
-				targetPage += 1;
-			}
-		} else {
-			targetPage = (int) Math.round(mCurItem + pageOffset);
-		}
-		return targetPage;
-	}
+
 
 	protected float getPercentOpen() {
 		return Math.abs(mScrollX-mContent.getLeft()) / getBehindWidth();
