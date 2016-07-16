@@ -120,15 +120,7 @@ public class CustomViewAbove extends ViewGroup {
 
 
 
-	// We want the duration of the page snap animation to be influenced by the distance that
-	// the screen has to travel, however, we don't want this duration to be effected in a
-	// purely linear fashion. Instead, we use this method to moderate the effect that the distance
-	// of travel has on the overall snap duration.
-	float distanceInfluenceForSnapDuration(float f) {
-		f -= 0.5f; // center the values about 0.
-		f *= 0.3f * Math.PI / 2.0f;
-		return (float) Math.sin(f);
-	}
+
 
 	public int getDestScrollX(int page) {
 		switch (page) {
@@ -208,20 +200,20 @@ public class CustomViewAbove extends ViewGroup {
 
 
 	private void completeScroll() {
-		boolean needPopulate = mScrolling;
-		if (needPopulate) {
-			// Done with scroll, no longer want to cache view drawing.
-			setScrollingCacheEnabled(false);
-			mScroller.abortAnimation();
-			int oldX = getScrollX();
-			int oldY = getScrollY();
-			int x = mScroller.getCurrX();
-			int y = mScroller.getCurrY();
-			if (oldX != x || oldY != y) {
-				scrollTo(x, y);
-			}
-		}
-		mScrolling = false;
+//		boolean needPopulate = mScrolling;
+//		if (needPopulate) {
+//			// Done with scroll, no longer want to cache view drawing.
+//			setScrollingCacheEnabled(false);
+//			mScroller.abortAnimation();
+//			int oldX = getScrollX();
+//			int oldY = getScrollY();
+//			int x = mScroller.getCurrX();
+//			int y = mScroller.getCurrY();
+//			if (oldX != x || oldY != y) {
+//				scrollTo(x, y);
+//			}
+//		}
+//		mScrolling = false;
 	}
 
 	protected int mTouchMode = SlidingMenu.TOUCHMODE_MARGIN;
@@ -242,7 +234,6 @@ public class CustomViewAbove extends ViewGroup {
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		scrollTo(-200, 0);
-
 		return true;
 	}
 
@@ -265,27 +256,27 @@ public class CustomViewAbove extends ViewGroup {
 	protected void dispatchDraw(Canvas canvas) {
 		super.dispatchDraw(canvas);
 		// Draw the margin drawable if needed.
-		mViewBehind.drawShadow(mContent, canvas);
-		mViewBehind.drawFade(mContent, canvas, getPercentOpen());
-		mViewBehind.drawSelector(mContent, canvas, getPercentOpen());
+//		mViewBehind.drawShadow(mContent, canvas);
+//		mViewBehind.drawFade(mContent, canvas, getPercentOpen());
+//		mViewBehind.drawSelector(mContent, canvas, getPercentOpen());
 	}
 
 	// variables for drawing
 	private float mScrollX = 0.0f;
 
 	private void setScrollingCacheEnabled(boolean enabled) {
-		if (mScrollingCacheEnabled != enabled) {
-			mScrollingCacheEnabled = enabled;
-			if (USE_CACHE) {
-				final int size = getChildCount();
-				for (int i = 0; i < size; ++i) {
-					final View child = getChildAt(i);
-					if (child.getVisibility() != GONE) {
-						child.setDrawingCacheEnabled(enabled);
-					}
-				}
-			}
-		}
+//		if (mScrollingCacheEnabled != enabled) {
+//			mScrollingCacheEnabled = enabled;
+//			if (USE_CACHE) {
+//				final int size = getChildCount();
+//				for (int i = 0; i < size; ++i) {
+//					final View child = getChildAt(i);
+//					if (child.getVisibility() != GONE) {
+//						child.setDrawingCacheEnabled(enabled);
+//					}
+//				}
+//			}
+//		}
 	}
 
 
