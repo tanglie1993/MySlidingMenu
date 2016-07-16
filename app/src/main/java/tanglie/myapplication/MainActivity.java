@@ -1,11 +1,15 @@
 package tanglie.myapplication;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
-public class MainActivity extends SlidingFragmentActivity {
+public class MainActivity extends Activity {
+
+    private SlidingMenu mSlidingMenu;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -13,16 +17,18 @@ public class MainActivity extends SlidingFragmentActivity {
 
         setContentView(R.layout.responsive_content_frame);
 
-        setBehindContentView(R.layout.menu_frame);
-        getSlidingMenu().setSlidingEnabled(true);
-        getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        mSlidingMenu = (SlidingMenu) LayoutInflater.from(this).inflate(R.layout.slidingmenumain, null);
+        mSlidingMenu.setMenu(getLayoutInflater().inflate(R.layout.menu_frame, null));
+        mSlidingMenu.setSlidingEnabled(true);
+        mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
-        SlidingMenu sm = getSlidingMenu();
-        sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        sm.setShadowWidthRes(R.dimen.shadow_width);
-        sm.setShadowDrawable(R.drawable.shadow);
-        sm.setBehindScrollScale(0.25f);
-        sm.setFadeDegree(0.25f);
+        mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        mSlidingMenu.setShadowWidthRes(R.dimen.shadow_width);
+        mSlidingMenu.setShadowDrawable(R.drawable.shadow);
+        mSlidingMenu.setBehindScrollScale(0.25f);
+        mSlidingMenu.setFadeDegree(0.25f);
+
+        mSlidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
     }
 
 }
