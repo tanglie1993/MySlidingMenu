@@ -20,12 +20,12 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
 
         testViewGroup = (TestViewGroup) LayoutInflater.from(this).inflate(R.layout.layout_test_view_group, null);
-        testViewGroup.setMenu(getLayoutInflater().inflate(R.layout.test_menu_frame, null));
+        testViewGroup.setMenu(getLayoutInflater().inflate(R.layout.menu_frame, null));
 
         ViewGroup contentParent = (ViewGroup) findViewById(android.R.id.content);
         View content = contentParent.getChildAt(0);
         contentParent.removeView(content);
         contentParent.addView(testViewGroup);
-        testViewGroup.setContent(content);
+//        testViewGroup.setContent(content);
     }
 }

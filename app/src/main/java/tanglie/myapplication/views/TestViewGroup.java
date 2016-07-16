@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 /**
  * Created by Administrator on 2016/7/16 0016.
  */
-public class TestViewGroup extends ViewGroup {
+public class TestViewGroup extends RelativeLayout {
 
     private View menu;
     private View content;
@@ -30,10 +30,10 @@ public class TestViewGroup extends ViewGroup {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-
-    }
+//    @Override
+//    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+//
+//    }
 
     public void setMenu(View menu) {
         this.menu = menu;
