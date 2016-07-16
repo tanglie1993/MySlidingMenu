@@ -19,7 +19,7 @@ public class CustomViewAbove extends ViewGroup {
 
 	private View mContent;
 	private int mCurItem;
-	protected int mMaximumVelocity;
+	private int mMaximumVelocity;
 	private CustomViewBehind mViewBehind;
 
 	public CustomViewAbove(Context context) {
@@ -31,7 +31,7 @@ public class CustomViewAbove extends ViewGroup {
 		initCustomViewAbove();
 	}
 
-	void initCustomViewAbove() {
+	private void initCustomViewAbove() {
 		setWillNotDraw(false);
 		setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
 		setFocusable(true);
@@ -54,30 +54,30 @@ public class CustomViewAbove extends ViewGroup {
 	}
 
 
-	void setCurrentItemInternal(int item, boolean smoothScroll, boolean always) {
+	private void setCurrentItemInternal(int item, boolean smoothScroll, boolean always) {
 		setCurrentItemInternal(item, smoothScroll, always, 0);
 	}
 
-	void setCurrentItemInternal(int item, boolean smoothScroll, boolean always, int velocity) {
-		if (!always && mCurItem == item) {
-			setScrollingCacheEnabled(false);
-			return;
-		}
-
-		item = mViewBehind.getMenuPage(item);
-
-		final boolean dispatchSelected = mCurItem != item;
-		mCurItem = item;
-		final int destX = getDestScrollX(mCurItem);
-		if (smoothScroll) {
-			smoothScrollTo(destX, 0, velocity);
-		} else {
-			completeScroll();
-			scrollTo(destX, 0);
-		}
+	private void setCurrentItemInternal(int item, boolean smoothScroll, boolean always, int velocity) {
+//		if (!always && mCurItem == item) {
+//			setScrollingCacheEnabled(false);
+//			return;
+//		}
+//
+//		item = mViewBehind.getMenuPage(item);
+//
+//		final boolean dispatchSelected = mCurItem != item;
+//		mCurItem = item;
+//		final int destX = getDestScrollX(mCurItem);
+//		if (smoothScroll) {
+//			smoothScrollTo(destX, 0, velocity);
+//		} else {
+//			completeScroll();
+//			scrollTo(destX, 0);
+//		}
 	}
 
-	public int getDestScrollX(int page) {
+	private int getDestScrollX(int page) {
 		switch (page) {
 			case 0:
 			case 2:
@@ -110,7 +110,7 @@ public class CustomViewAbove extends ViewGroup {
 		mContent.layout(0, 0, width, height);
 	}
 
-	protected int mTouchMode = SlidingMenu.TOUCHMODE_MARGIN;
+	private int mTouchMode = SlidingMenu.TOUCHMODE_MARGIN;
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
@@ -131,20 +131,12 @@ public class CustomViewAbove extends ViewGroup {
 
 
 
-	public int getBehindWidth() {
+	private int getBehindWidth() {
 		if (mViewBehind == null) {
 			return 0;
 		} else {
 			return mViewBehind.getBehindWidth();
 		}
-	}
-
-
-	public void setSlidingEnabled(boolean b) {
-//		mEnabled = b;
-	}
-
-	void smoothScrollTo(int x, int y, int velocity) {
 	}
 
 	public void setContent(View v) {
@@ -178,16 +170,13 @@ public class CustomViewAbove extends ViewGroup {
 	}
 
 
-	public boolean executeKeyEvent(KeyEvent event) {
+	private boolean executeKeyEvent(KeyEvent event) {
 		boolean handled = false;
 		return handled;
 	}
 
 	// variables for drawing
 	private float mScrollX = 0.0f;
-
-	private void setScrollingCacheEnabled(boolean enabled) {
-	}
 
 	public void setTouchMode(int i) {
 		mTouchMode = i;
@@ -201,9 +190,6 @@ public class CustomViewAbove extends ViewGroup {
 	@Override
 	public void computeScroll() {
 
-	}
-
-	private void completeScroll() {
 	}
 
 }
