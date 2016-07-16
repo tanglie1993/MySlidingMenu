@@ -17,50 +17,16 @@ import android.widget.Scroller;
 
 public class CustomViewAbove extends ViewGroup {
 
-	private static final String TAG = "CustomViewAbove";
-	private static final boolean DEBUG = false;
-
-	private static final boolean USE_CACHE = false;
-
-	private static final int MAX_SETTLE_DURATION = 600; // ms
-	private static final int MIN_DISTANCE_FOR_FLING = 25; // dips
-
 	private static final Interpolator sInterpolator = new Interpolator() {
 		public float getInterpolation(float t) {
 			t -= 1.0f;
 			return t * t * t * t * t + 1.0f;
 		}
 	};
-
 	private View mContent;
-
 	private int mCurItem;
-	private Scroller mScroller;
-
-	private boolean mScrollingCacheEnabled;
-
-	private boolean mScrolling;
-
-	/**
-	 * ID of the active pointer. This is used to retain consistency during
-	 * drags/flings if multiple pointers are used.
-	 */
-	protected int mActivePointerId = INVALID_POINTER;
-	/**
-	 * Sentinel value for no current active pointer.
-	 * Used by {@link #mActivePointerId}.
-	 */
-	private static final int INVALID_POINTER = -1;
-
-	/**
-	 * Determines speed during touch scrolling
-	 */
 	protected int mMaximumVelocity;
-
 	private CustomViewBehind mViewBehind;
-	//	private int mMode;
-
-
 
 	public CustomViewAbove(Context context) {
 		this(context, null);
@@ -76,7 +42,6 @@ public class CustomViewAbove extends ViewGroup {
 		setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
 		setFocusable(true);
 		final Context context = getContext();
-		mScroller = new Scroller(context, sInterpolator);
 		final ViewConfiguration configuration = ViewConfiguration.get(context);
 		mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
 
@@ -146,14 +111,6 @@ public class CustomViewAbove extends ViewGroup {
 //		mEnabled = b;
 	}
 
-
-	/**
-	 * Like {@link View#scrollBy}, but scroll smoothly instead of immediately.
-	 *
-	 * @param x the number of pixels to scroll by on the X axis
-	 * @param y the number of pixels to scroll by on the Y axis
-	 * @param velocity the velocity associated with a fling, if applicable. (0 otherwise)
-	 */
 	void smoothScrollTo(int x, int y, int velocity) {
 	}
 
@@ -200,20 +157,6 @@ public class CustomViewAbove extends ViewGroup {
 
 
 	private void completeScroll() {
-//		boolean needPopulate = mScrolling;
-//		if (needPopulate) {
-//			// Done with scroll, no longer want to cache view drawing.
-//			setScrollingCacheEnabled(false);
-//			mScroller.abortAnimation();
-//			int oldX = getScrollX();
-//			int oldY = getScrollY();
-//			int x = mScroller.getCurrX();
-//			int y = mScroller.getCurrY();
-//			if (oldX != x || oldY != y) {
-//				scrollTo(x, y);
-//			}
-//		}
-//		mScrolling = false;
 	}
 
 	protected int mTouchMode = SlidingMenu.TOUCHMODE_MARGIN;
@@ -255,28 +198,12 @@ public class CustomViewAbove extends ViewGroup {
 	@Override
 	protected void dispatchDraw(Canvas canvas) {
 		super.dispatchDraw(canvas);
-		// Draw the margin drawable if needed.
-//		mViewBehind.drawShadow(mContent, canvas);
-//		mViewBehind.drawFade(mContent, canvas, getPercentOpen());
-//		mViewBehind.drawSelector(mContent, canvas, getPercentOpen());
 	}
 
 	// variables for drawing
 	private float mScrollX = 0.0f;
 
 	private void setScrollingCacheEnabled(boolean enabled) {
-//		if (mScrollingCacheEnabled != enabled) {
-//			mScrollingCacheEnabled = enabled;
-//			if (USE_CACHE) {
-//				final int size = getChildCount();
-//				for (int i = 0; i < size; ++i) {
-//					final View child = getChildAt(i);
-//					if (child.getVisibility() != GONE) {
-//						child.setDrawingCacheEnabled(enabled);
-//					}
-//				}
-//			}
-//		}
 	}
 
 
@@ -287,14 +214,7 @@ public class CustomViewAbove extends ViewGroup {
 		return super.dispatchKeyEvent(event) || executeKeyEvent(event);
 	}
 
-	/**
-	 * You can call this function yourself to have the scroll view perform
-	 * scrolling from a key event, just as if the event had been dispatched to
-	 * it by the view hierarchy.
-	 *
-	 * @param event The key event to execute.
-	 * @return Return true if the event was handled, else false.
-	 */
+
 	public boolean executeKeyEvent(KeyEvent event) {
 		boolean handled = false;
 		return handled;
