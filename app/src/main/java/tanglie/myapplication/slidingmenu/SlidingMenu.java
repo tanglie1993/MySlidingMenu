@@ -288,7 +288,7 @@ public class SlidingMenu extends RelativeLayout {
 	 * @param animate true to animate the transition, false to ignore animation
 	 */
 	public void showContent(boolean animate) {
-		mViewAbove.setCurrentItem(1, animate);
+//		mViewAbove.setCurrentItem(1, animate);
 	}
 
 
@@ -344,7 +344,7 @@ public class SlidingMenu extends RelativeLayout {
 			throw new IllegalStateException("TouchMode must be set to either" +
 					"TOUCHMODE_FULLSCREEN or TOUCHMODE_MARGIN or TOUCHMODE_NONE.");
 		}
-		mViewAbove.setTouchMode(i);
+//		mViewAbove.setTouchMode(i);
 	}
 
 
