@@ -155,7 +155,7 @@ public class SlidingMenu extends RelativeLayout {
 	 */
 	public SlidingMenu(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		
+
 		LayoutParams behindParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		mViewBehind = new CustomViewBehind(context);
 		addView(mViewBehind, behindParams);
@@ -197,28 +197,28 @@ public class SlidingMenu extends RelativeLayout {
 		a.recycle();
 
 		switch (slideStyle) {
-		case SLIDING_WINDOW:
-			mActionbarOverlay = false;
-			ViewGroup decor = (ViewGroup) activity.getWindow().getDecorView();
-			ViewGroup decorChild = (ViewGroup) decor.getChildAt(0);
-			// save ActionBar themes that have transparent assets
-			decorChild.setBackgroundResource(background);
-			decor.removeView(decorChild);
-			decor.addView(this);
-			setContent(decorChild);
-			break;
-		case SLIDING_CONTENT:
-			mActionbarOverlay = actionbarOverlay;
-			// take the above view out of
-			ViewGroup contentParent = (ViewGroup)activity.findViewById(android.R.id.content);
-			View content = contentParent.getChildAt(0);
-			contentParent.removeView(content);
-			contentParent.addView(this);
-			setContent(content);
-			// save people from having transparent backgrounds
-			if (content.getBackground() == null)
-				content.setBackgroundResource(background);
-			break;
+			case SLIDING_WINDOW:
+				mActionbarOverlay = false;
+				ViewGroup decor = (ViewGroup) activity.getWindow().getDecorView();
+				ViewGroup decorChild = (ViewGroup) decor.getChildAt(0);
+				// save ActionBar themes that have transparent assets
+				decorChild.setBackgroundResource(background);
+				decor.removeView(decorChild);
+				decor.addView(this);
+				setContent(decorChild);
+				break;
+			case SLIDING_CONTENT:
+				mActionbarOverlay = actionbarOverlay;
+				// take the above view out of
+				ViewGroup contentParent = (ViewGroup)activity.findViewById(android.R.id.content);
+				View content = contentParent.getChildAt(0);
+				contentParent.removeView(content);
+				contentParent.addView(this);
+				setContent(content);
+				// save people from having transparent backgrounds
+				if (content.getBackground() == null)
+					content.setBackgroundResource(background);
+				break;
 		}
 	}
 	/**
@@ -276,16 +276,6 @@ public class SlidingMenu extends RelativeLayout {
 
 
 	/**
-	 * Opens the menu and shows the menu view.
-	 *
-	 * @param animate true to animate the transition, false to ignore animation
-	 */
-	public void showMenu(boolean animate) {
-		mViewAbove.setCurrentItem(0, animate);
-	}
-
-
-	/**
 	 * Closes the menu and shows the above view.
 	 */
 	public void showContent() {
@@ -326,16 +316,6 @@ public class SlidingMenu extends RelativeLayout {
 		int i = (int) getContext().getResources().getDimension(resID);
 		setBehindOffset(i);
 	}
-
-	/**
-	 * Sets the above offset.
-	 *
-	 * @param i the new above offset, in pixels
-	 */
-	public void setAboveOffset(int i) {
-		mViewAbove.setAboveOffset(i);
-	}
-
 
 
 	/**
@@ -386,23 +366,13 @@ public class SlidingMenu extends RelativeLayout {
 		mViewBehind.setShadowDrawable(d);
 	}
 
-
-	/**
-	 * Sets the secondary (right) shadow drawable.
-	 *
-	 * @param d the new shadow drawable
-	 */
-	public void setSecondaryShadowDrawable(Drawable d) {
-		mViewBehind.setSecondaryShadowDrawable(d);
-	}
-
 	/**
 	 * Sets the shadow width.
 	 *
 	 * @param resId The dimension resource id to be set as the shadow width.
 	 */
 	public void setShadowWidthRes(int resId) {
-		setShadowWidth((int)getResources().getDimension(resId));
+		setShadowWidth((int) getResources().getDimension(resId));
 	}
 
 	/**
@@ -426,64 +396,6 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 
-	public static class SavedState extends BaseSavedState {
-
-		private final int mItem;
-
-		public SavedState(Parcelable superState, int item) {
-			super(superState);
-			mItem = item;
-		}
-
-		private SavedState(Parcel in) {
-			super(in);
-			mItem = in.readInt();
-		}
-
-		public int getItem() {
-			return mItem;
-		}
-
-		/* (non-Javadoc)
-		 * @see android.view.AbsSavedState#writeToParcel(android.os.Parcel, int)
-		 */
-		public void writeToParcel(Parcel out, int flags) {
-			super.writeToParcel(out, flags);
-			out.writeInt(mItem);
-		}
-
-		public static final Creator<SavedState> CREATOR =
-				new Creator<SavedState>() {
-			public SavedState createFromParcel(Parcel in) {
-				return new SavedState(in);
-			}
-
-			public SavedState[] newArray(int size) {
-				return new SavedState[size];
-			}
-		};
-
-	}
-
-	/* (non-Javadoc)
-	 * @see android.view.View#onSaveInstanceState()
-	 */
-	@Override
-	protected Parcelable onSaveInstanceState() {
-		Parcelable superState = super.onSaveInstanceState();
-		SavedState ss = new SavedState(superState, mViewAbove.getCurrentItem());
-		return ss;
-	}
-
-	/* (non-Javadoc)
-	 * @see android.view.View#onRestoreInstanceState(android.os.Parcelable)
-	 */
-	@Override
-	protected void onRestoreInstanceState(Parcelable state) {
-		SavedState ss = (SavedState)state;
-		super.onRestoreInstanceState(ss.getSuperState());
-		mViewAbove.setCurrentItem(ss.getItem());
-	}
 
 	/* (non-Javadoc)
 	 * @see android.view.ViewGroup#fitSystemWindows(android.graphics.Rect)
