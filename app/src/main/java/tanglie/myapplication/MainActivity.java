@@ -39,6 +39,13 @@ public class MainActivity extends SlidingFragmentActivity {
             getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
         }
 
+        SlidingMenu sm = getSlidingMenu();
+        sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        sm.setShadowWidthRes(R.dimen.shadow_width);
+        sm.setShadowDrawable(R.drawable.shadow);
+        sm.setBehindScrollScale(0.25f);
+        sm.setFadeDegree(0.25f);
+
         // set the Above View Fragment
         if (savedInstanceState != null)
             mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
@@ -55,13 +62,6 @@ public class MainActivity extends SlidingFragmentActivity {
                 .replace(R.id.menu_frame, new Fragment())
                 .commit();
 
-        // customize the SlidingMenu
-        SlidingMenu sm = getSlidingMenu();
-//        sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-//        sm.setShadowWidthRes(R.dimen.shadow_width);
-//        sm.setShadowDrawable(R.drawable.shadow);
-        sm.setBehindScrollScale(0.25f);
-        sm.setFadeDegree(0.25f);
 
     }
 
