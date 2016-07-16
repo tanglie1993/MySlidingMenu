@@ -17,12 +17,6 @@ import android.widget.Scroller;
 
 public class CustomViewAbove extends ViewGroup {
 
-	private static final Interpolator sInterpolator = new Interpolator() {
-		public float getInterpolation(float t) {
-			t -= 1.0f;
-			return t * t * t * t * t + 1.0f;
-		}
-	};
 	private View mContent;
 	private int mCurItem;
 	protected int mMaximumVelocity;
@@ -83,10 +77,6 @@ public class CustomViewAbove extends ViewGroup {
 		}
 	}
 
-
-
-
-
 	public int getDestScrollX(int page) {
 		switch (page) {
 			case 0:
@@ -97,6 +87,49 @@ public class CustomViewAbove extends ViewGroup {
 		}
 		return 0;
 	}
+
+
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+		int width = getDefaultSize(0, widthMeasureSpec);
+		int height = getDefaultSize(0, heightMeasureSpec);
+		setMeasuredDimension(width, height);
+
+		final int contentWidth = getChildMeasureSpec(widthMeasureSpec, 0, width);
+		final int contentHeight = getChildMeasureSpec(heightMeasureSpec, 0, height);
+		mContent.measure(contentWidth, contentHeight);
+	}
+
+
+	@Override
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		final int width = r - l;
+		final int height = b - t;
+		mContent.layout(0, 0, width, height);
+	}
+
+	protected int mTouchMode = SlidingMenu.TOUCHMODE_MARGIN;
+
+	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+		scrollTo(-200, 0);
+		return true;
+	}
+
+	@Override
+	public void scrollTo(int x, int y) {
+		super.scrollTo(x, y);
+		mScrollX = x;
+		mViewBehind.scrollBehindTo(mContent, x, y);
+		((SlidingMenu)getParent()).manageLayers(getPercentOpen());
+	}
+
+
+
+
+
 
 	public int getBehindWidth() {
 		if (mViewBehind == null) {
@@ -129,68 +162,6 @@ public class CustomViewAbove extends ViewGroup {
 		mViewBehind = cvb;
 	}
 
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-		int width = getDefaultSize(0, widthMeasureSpec);
-		int height = getDefaultSize(0, heightMeasureSpec);
-		setMeasuredDimension(width, height);
-
-		final int contentWidth = getChildMeasureSpec(widthMeasureSpec, 0, width);
-		final int contentHeight = getChildMeasureSpec(heightMeasureSpec, 0, height);
-		mContent.measure(contentWidth, contentHeight);
-	}
-
-
-	@Override
-	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		final int width = r - l;
-		final int height = b - t;
-		mContent.layout(0, 0, width, height);
-	}
-
-	@Override
-	public void computeScroll() {
-
-	}
-
-
-
-	private void completeScroll() {
-	}
-
-	protected int mTouchMode = SlidingMenu.TOUCHMODE_MARGIN;
-
-	public void setTouchMode(int i) {
-		mTouchMode = i;
-	}
-
-	private boolean mQuickReturn = false;
-
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent ev) {
-
-		return true;
-	}
-
-
-	@Override
-	public boolean onTouchEvent(MotionEvent ev) {
-		scrollTo(-200, 0);
-		return true;
-	}
-
-
-	@Override
-	public void scrollTo(int x, int y) {
-		super.scrollTo(x, y);
-		mScrollX = x;
-		mViewBehind.scrollBehindTo(mContent, x, y);
-		((SlidingMenu)getParent()).manageLayers(getPercentOpen());
-	}
-
-
-
 	protected float getPercentOpen() {
 		return Math.abs(mScrollX-mContent.getLeft()) / getBehindWidth();
 	}
@@ -199,14 +170,6 @@ public class CustomViewAbove extends ViewGroup {
 	protected void dispatchDraw(Canvas canvas) {
 		super.dispatchDraw(canvas);
 	}
-
-	// variables for drawing
-	private float mScrollX = 0.0f;
-
-	private void setScrollingCacheEnabled(boolean enabled) {
-	}
-
-
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
@@ -220,5 +183,27 @@ public class CustomViewAbove extends ViewGroup {
 		return handled;
 	}
 
+	// variables for drawing
+	private float mScrollX = 0.0f;
+
+	private void setScrollingCacheEnabled(boolean enabled) {
+	}
+
+	public void setTouchMode(int i) {
+		mTouchMode = i;
+	}
+
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		return true;
+	}
+
+	@Override
+	public void computeScroll() {
+
+	}
+
+	private void completeScroll() {
+	}
 
 }
