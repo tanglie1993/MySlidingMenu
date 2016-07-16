@@ -219,42 +219,6 @@ public class CustomViewAbove extends ViewGroup {
 	 * @param velocity the velocity associated with a fling, if applicable. (0 otherwise)
 	 */
 	void smoothScrollTo(int x, int y, int velocity) {
-		if (getChildCount() == 0) {
-			// Nothing to do.
-			setScrollingCacheEnabled(false);
-			return;
-		}
-		int sx = getScrollX();
-		int sy = getScrollY();
-		int dx = x - sx;
-		int dy = y - sy;
-		if (dx == 0 && dy == 0) {
-			completeScroll();
-			return;
-		}
-
-		setScrollingCacheEnabled(true);
-		mScrolling = true;
-
-		final int width = getBehindWidth();
-		final int halfWidth = width / 2;
-		final float distanceRatio = Math.min(1f, 1.0f * Math.abs(dx) / width);
-		final float distance = halfWidth + halfWidth *
-				distanceInfluenceForSnapDuration(distanceRatio);
-
-		int duration = 0;
-		velocity = Math.abs(velocity);
-		if (velocity > 0) {
-			duration = 4 * Math.round(1000 * Math.abs(distance / velocity));
-		} else {
-			final float pageDelta = (float) Math.abs(dx) / width;
-			duration = (int) ((pageDelta + 1) * 100);
-			duration = MAX_SETTLE_DURATION;
-		}
-		duration = Math.min(duration, MAX_SETTLE_DURATION);
-
-		mScroller.startScroll(sx, sy, dx, dy, duration);
-		invalidate();
 	}
 
 	public void setContent(View v) {
@@ -398,77 +362,8 @@ public class CustomViewAbove extends ViewGroup {
 	 */
 	public boolean executeKeyEvent(KeyEvent event) {
 		boolean handled = false;
-		if (event.getAction() == KeyEvent.ACTION_DOWN) {
-			switch (event.getKeyCode()) {
-				case KeyEvent.KEYCODE_DPAD_LEFT:
-					handled = arrowScroll(FOCUS_LEFT);
-					break;
-				case KeyEvent.KEYCODE_DPAD_RIGHT:
-					handled = arrowScroll(FOCUS_RIGHT);
-					break;
-				case KeyEvent.KEYCODE_TAB:
-					if (Build.VERSION.SDK_INT >= 11) {
-						// The focus finder had a bug handling FOCUS_FORWARD and FOCUS_BACKWARD
-						// before Android 3.0. Ignore the tab key on those devices.
-						if (KeyEventCompat.hasNoModifiers(event)) {
-							handled = arrowScroll(FOCUS_FORWARD);
-						} else if (KeyEventCompat.hasModifiers(event, KeyEvent.META_SHIFT_ON)) {
-							handled = arrowScroll(FOCUS_BACKWARD);
-						}
-					}
-					break;
-			}
-		}
 		return handled;
 	}
 
-	public boolean arrowScroll(int direction) {
-		View currentFocused = findFocus();
-		if (currentFocused == this) currentFocused = null;
-
-		boolean handled = false;
-
-		View nextFocused = FocusFinder.getInstance().findNextFocus(this, currentFocused,
-				direction);
-		if (nextFocused != null && nextFocused != currentFocused) {
-			if (direction == View.FOCUS_LEFT) {
-				handled = nextFocused.requestFocus();
-			} else if (direction == View.FOCUS_RIGHT) {
-				// If there is nothing to the right, or this is causing us to
-				// jump to the left, then what we really want to do is page right.
-				if (currentFocused != null && nextFocused.getLeft() <= currentFocused.getLeft()) {
-					handled = pageRight();
-				} else {
-					handled = nextFocused.requestFocus();
-				}
-			}
-		} else if (direction == FOCUS_LEFT || direction == FOCUS_BACKWARD) {
-			// Trying to move left and nothing there; try to page.
-			handled = pageLeft();
-		} else if (direction == FOCUS_RIGHT || direction == FOCUS_FORWARD) {
-			// Trying to move right and nothing there; try to page.
-			handled = pageRight();
-		}
-		if (handled) {
-			playSoundEffect(SoundEffectConstants.getContantForFocusDirection(direction));
-		}
-		return handled;
-	}
-
-	boolean pageLeft() {
-		if (mCurItem > 0) {
-			setCurrentItem(mCurItem-1, true);
-			return true;
-		}
-		return false;
-	}
-
-	boolean pageRight() {
-		if (mCurItem < 1) {
-			setCurrentItem(mCurItem+1, true);
-			return true;
-		}
-		return false;
-	}
 
 }
