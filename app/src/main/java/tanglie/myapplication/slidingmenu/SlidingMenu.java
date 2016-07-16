@@ -5,8 +5,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -21,13 +19,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-
 import java.lang.reflect.Method;
-
-import tanglie.myapplication.R;
 
 public class SlidingMenu extends RelativeLayout {
 
@@ -68,29 +62,6 @@ public class SlidingMenu extends RelativeLayout {
 
 	private CustomViewBehind mViewBehind;
 
-	private OnOpenListener mOpenListener;
-	
-	private OnOpenListener mSecondaryOpenListner;
-
-	private OnCloseListener mCloseListener;
-
-	/**
-	 * The listener interface for receiving onOpen events.
-	 * The class that is interested in processing a onOpen
-	 * event implements this interface, and the object created
-	 * with that class is registered with a component using the
-	 * component's <code>addOnOpenListener<code> method. When
-	 * the onOpen event occurs, that object's appropriate
-	 * method is invoked
-	 */
-	public interface OnOpenListener {
-
-		/**
-		 * On open.
-		 */
-		public void onOpen();
-	}
-
 	/**
 	 * The listener interface for receiving onOpened events.
 	 * The class that is interested in processing a onOpened
@@ -110,24 +81,7 @@ public class SlidingMenu extends RelativeLayout {
 		public void onOpened();
 	}
 
-	/**
-	 * The listener interface for receiving onClose events.
-	 * The class that is interested in processing a onClose
-	 * event implements this interface, and the object created
-	 * with that class is registered with a component using the
-	 * component's <code>addOnCloseListener<code> method. When
-	 * the onClose event occurs, that object's appropriate
-	 * method is invoked.
-	 *
-	 * @see OnCloseEvent
-	 */
-	public interface OnCloseListener {
 
-		/**
-		 * On close.
-		 */
-		public void onClose();
-	}
 
 	/**
 	 * The listener interface for receiving onClosed events.
@@ -211,24 +165,6 @@ public class SlidingMenu extends RelativeLayout {
 		// register the CustomViewBehind with the CustomViewAbove
 		mViewAbove.setCustomViewBehind(mViewBehind);
 		mViewBehind.setCustomViewAbove(mViewAbove);
-		mViewAbove.setOnPageChangeListener(new CustomViewAbove.OnPageChangeListener() {
-			public static final int POSITION_OPEN = 0;
-			public static final int POSITION_CLOSE = 1;
-			public static final int POSITION_SECONDARY_OPEN = 2;
-
-			public void onPageScrolled(int position, float positionOffset,
-					int positionOffsetPixels) { }
-
-			public void onPageSelected(int position) {
-				if (position == POSITION_OPEN && mOpenListener != null) {
-					mOpenListener.onOpen();
-				} else if (position == POSITION_CLOSE && mCloseListener != null) {
-					mCloseListener.onClose();
-				} else if (position == POSITION_SECONDARY_OPEN && mSecondaryOpenListner != null ) {
-					mSecondaryOpenListner.onOpen();
-				}
-			}
-		});
 	}
 
 	/**
@@ -285,17 +221,6 @@ public class SlidingMenu extends RelativeLayout {
 			break;
 		}
 	}
-
-	/**
-	 * Set the above view content from a layout resource. The resource will be inflated, adding all top-level views
-	 * to the above view.
-	 *
-	 * @param res the new content
-	 */
-	public void setContent(int res) {
-		setContent(LayoutInflater.from(getContext()).inflate(res, null));
-	}
-
 	/**
 	 * Set the above view content to the given View.
 	 *
@@ -315,16 +240,6 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Set the behind view (menu) content from a layout resource. The resource will be inflated, adding all top-level views
-	 * to the behind view.
-	 *
-	 * @param res the new content
-	 */
-	public void setMenu(int res) {
-		setMenu(LayoutInflater.from(getContext()).inflate(res, null));
-	}
-
-	/**
 	 * Set the behind view (menu) content to the given View.
 	 *
 	 * @param view The desired content to display.
@@ -339,26 +254,6 @@ public class SlidingMenu extends RelativeLayout {
 	 */
 	public View getMenu() {
 		return mViewBehind.getContent();
-	}
-
-	/**
-	 * Set the secondary behind view (right menu) content from a layout resource. The resource will be inflated, adding all top-level views
-	 * to the behind view.
-	 *
-	 * @param res the new content
-	 */
-	public void setSecondaryMenu(int res) {
-		setSecondaryMenu(LayoutInflater.from(getContext()).inflate(res, null));
-	}
-
-	/**
-	 * Set the secondary behind view (right menu) content to the given View.
-	 *
-	 * @param view The desired content to display.
-	 */
-	public void setSecondaryMenu(View v) {
-		mViewBehind.setSecondaryContent(v);
-		//		mViewBehind.invalidate();
 	}
 
 	/**
@@ -389,23 +284,6 @@ public class SlidingMenu extends RelativeLayout {
 		mViewAbove.setCurrentItem(0, animate);
 	}
 
-	/**
-	 * Opens the menu and shows the secondary menu view. Will default to the regular menu
-	 * if there is only one.
-	 */
-	public void showSecondaryMenu() {
-		showSecondaryMenu(true);
-	}
-
-	/**
-	 * Opens the menu and shows the secondary (right) menu view. Will default to the regular menu
-	 * if there is only one.
-	 *
-	 * @param animate true to animate the transition, false to ignore animation
-	 */
-	public void showSecondaryMenu(boolean animate) {
-		mViewAbove.setCurrentItem(2, animate);
-	}
 
 	/**
 	 * Closes the menu and shows the above view.
@@ -423,34 +301,6 @@ public class SlidingMenu extends RelativeLayout {
 		mViewAbove.setCurrentItem(1, animate);
 	}
 
-	/**
-	 * Toggle the SlidingMenu. If it is open, it will be closed, and vice versa.
-	 */
-	public void toggle() {
-		toggle(true);
-	}
-
-	/**
-	 * Toggle the SlidingMenu. If it is open, it will be closed, and vice versa.
-	 *
-	 * @param animate true to animate the transition, false to ignore animation
-	 */
-	public void toggle(boolean animate) {
-		if (isMenuShowing()) {
-			showContent(animate);
-		} else {
-			showMenu(animate);
-		}
-	}
-
-	/**
-	 * Checks if is the behind view showing.
-	 *
-	 * @return Whether or not the behind view is showing
-	 */
-	public boolean isMenuShowing() {
-		return mViewAbove.getCurrentItem() == 0 || mViewAbove.getCurrentItem() == 2;
-	}
 
 	/**
 	 * Sets the behind offset.
@@ -486,38 +336,7 @@ public class SlidingMenu extends RelativeLayout {
 		mViewAbove.setAboveOffset(i);
 	}
 
-	/**
-	 * Sets the above offset.
-	 *
-	 * @param resID The dimension resource id to be set as the above offset.
-	 */
-	public void setAboveOffsetRes(int resID) {
-		int i = (int) getContext().getResources().getDimension(resID);
-		setAboveOffset(i);
-	}
 
-	/**
-	 * Sets the behind width.
-	 *
-	 * @param i The width the Sliding Menu will open to, in pixels
-	 */
-	@SuppressWarnings("deprecation")
-	public void setBehindWidth(int i) {
-		int width;
-		Display display = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE))
-				.getDefaultDisplay();
-		try {
-			Class<?> cls = Display.class;
-			Class<?>[] parameterTypes = {Point.class};
-			Point parameter = new Point();
-			Method method = cls.getMethod("getSize", parameterTypes);
-			method.invoke(display, parameter);
-			width = parameter.x;
-		} catch (Exception e) {
-			width = display.getWidth();
-		}
-		setBehindOffset(width-i);
-	}
 
 	/**
 	 * Sets the behind scroll scale.
