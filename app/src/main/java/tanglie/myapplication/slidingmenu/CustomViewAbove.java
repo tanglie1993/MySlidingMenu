@@ -2,29 +2,16 @@ package tanglie.myapplication.slidingmenu;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.os.Build;
-import android.support.v4.view.KeyEventCompat;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.VelocityTrackerCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewConfigurationCompat;
 import android.util.AttributeSet;
-import android.util.FloatMath;
-import android.util.Log;
-import android.view.FocusFinder;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.SoundEffectConstants;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
-
-import java.util.ArrayList;
-import java.util.List;
 //import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnCloseListener;
 //import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenListener;
 
@@ -54,15 +41,6 @@ public class CustomViewAbove extends ViewGroup {
 
 	private boolean mScrolling;
 
-	private boolean mIsBeingDragged;
-	private boolean mIsUnableToDrag;
-	private int mTouchSlop;
-	private float mInitialMotionX;
-	/**
-	 * Position of the last motion event.
-	 */
-	private float mLastMotionX;
-	private float mLastMotionY;
 	/**
 	 * ID of the active pointer. This is used to retain consistency during
 	 * drags/flings if multiple pointers are used.
@@ -77,42 +55,11 @@ public class CustomViewAbove extends ViewGroup {
 	/**
 	 * Determines speed during touch scrolling
 	 */
-	protected VelocityTracker mVelocityTracker;
-	private int mMinimumVelocity;
 	protected int mMaximumVelocity;
-	private int mFlingDistance;
 
 	private CustomViewBehind mViewBehind;
 	//	private int mMode;
-	private boolean mEnabled = true;
 
-	//	private int mScrollState = SCROLL_STATE_IDLE;
-
-	/**
-	 * Callback interface for responding to changing state of the selected page.
-	 */
-	public interface OnPageChangeListener {
-
-		/**
-		 * This method will be invoked when the current page is scrolled, either as part
-		 * of a programmatically initiated smooth scroll or a user initiated touch scroll.
-		 *
-		 * @param position Position index of the first page currently being displayed.
-		 *                 Page position+1 will be visible if positionOffset is nonzero.
-		 * @param positionOffset Value from [0, 1) indicating the offset from the page at position.
-		 * @param positionOffsetPixels Value in pixels indicating the offset from position.
-		 */
-		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
-
-		/**
-		 * This method will be invoked when a new page becomes selected. Animation is not
-		 * necessarily complete.
-		 *
-		 * @param position Position index of the new selected page.
-		 */
-		public void onPageSelected(int position);
-
-	}
 
 
 	public CustomViewAbove(Context context) {
@@ -131,12 +78,9 @@ public class CustomViewAbove extends ViewGroup {
 		final Context context = getContext();
 		mScroller = new Scroller(context, sInterpolator);
 		final ViewConfiguration configuration = ViewConfiguration.get(context);
-		mTouchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(configuration);
-		mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
 		mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
 
 		final float density = context.getResources().getDisplayMetrics().density;
-		mFlingDistance = (int) (MIN_DISTANCE_FOR_FLING * density);
 	}
 
 
@@ -207,7 +151,7 @@ public class CustomViewAbove extends ViewGroup {
 
 
 	public void setSlidingEnabled(boolean b) {
-		mEnabled = b;
+//		mEnabled = b;
 	}
 
 
