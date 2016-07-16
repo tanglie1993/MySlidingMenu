@@ -37,9 +37,20 @@ public class TestViewGroup extends RelativeLayout {
 
     public void setMenu(View menu) {
         this.menu = menu;
+        addView(menu, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
 
     public void setContent(View content) {
         this.content = content;
+        addView(content, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
+
+    public View getMenu() {
+        return menu;
+    }
+
+    public View getContent() {
+        return content;
+    }
+
 }

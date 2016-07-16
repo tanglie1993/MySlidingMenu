@@ -7,7 +7,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="Menu"
         android:id="@+id/button2"
+        android:layout_marginStart="100dp"
         android:layout_gravity="left|top" />
 </FrameLayout>
