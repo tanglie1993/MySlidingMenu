@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+import tanglie.myapplication.slidingmenu.SlidingMenu;
+
 
 public class MainActivity extends Activity {
 

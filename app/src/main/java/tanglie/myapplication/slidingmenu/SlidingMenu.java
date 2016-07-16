@@ -1,6 +1,4 @@
-package com.jeremyfeinstein.slidingmenu.lib;
-
-import java.lang.reflect.Method;
+package tanglie.myapplication.slidingmenu;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -14,7 +12,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -27,7 +24,10 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove.OnPageChangeListener;
+
+import java.lang.reflect.Method;
+
+import tanglie.myapplication.R;
 
 public class SlidingMenu extends RelativeLayout {
 
@@ -211,7 +211,7 @@ public class SlidingMenu extends RelativeLayout {
 		// register the CustomViewBehind with the CustomViewAbove
 		mViewAbove.setCustomViewBehind(mViewBehind);
 		mViewBehind.setCustomViewAbove(mViewAbove);
-		mViewAbove.setOnPageChangeListener(new OnPageChangeListener() {
+		mViewAbove.setOnPageChangeListener(new CustomViewAbove.OnPageChangeListener() {
 			public static final int POSITION_OPEN = 0;
 			public static final int POSITION_CLOSE = 1;
 			public static final int POSITION_SECONDARY_OPEN = 2;
@@ -230,61 +230,61 @@ public class SlidingMenu extends RelativeLayout {
 			}
 		});
 
-		// now style everything!
-		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SlidingMenu);
-		// set the above and behind views if defined in xml
-		int mode = ta.getInt(R.styleable.SlidingMenu_mode, LEFT);
-		setMode(mode);
-		int viewAbove = ta.getResourceId(R.styleable.SlidingMenu_viewAbove, -1);
-		if (viewAbove != -1) {
-			setContent(viewAbove);
-		} else {
-			setContent(new FrameLayout(context));
-		}
-		int viewBehind = ta.getResourceId(R.styleable.SlidingMenu_viewBehind, -1);
-		if (viewBehind != -1) {
-			setMenu(viewBehind); 
-		} else {
-			setMenu(new FrameLayout(context));
-		}
-		int touchModeAbove = ta.getInt(R.styleable.SlidingMenu_touchModeAbove, TOUCHMODE_MARGIN);
-		setTouchModeAbove(touchModeAbove);
-		int touchModeBehind = ta.getInt(R.styleable.SlidingMenu_touchModeBehind, TOUCHMODE_MARGIN);
-		setTouchModeBehind(touchModeBehind);
-
-		int offsetBehind = (int) ta.getDimension(R.styleable.SlidingMenu_behindOffset, -1);
-		int widthBehind = (int) ta.getDimension(R.styleable.SlidingMenu_behindWidth, -1);
-		if (offsetBehind != -1 && widthBehind != -1)
-			throw new IllegalStateException("Cannot set both behindOffset and behindWidth for a SlidingMenu");
-		else if (offsetBehind != -1)
-			setBehindOffset(offsetBehind);
-		else if (widthBehind != -1)
-			setBehindWidth(widthBehind);
-		else
-			setBehindOffset(0);
-		float scrollOffsetBehind = ta.getFloat(R.styleable.SlidingMenu_behindScrollScale, 0.33f);
-		setBehindScrollScale(scrollOffsetBehind);
-		int shadowRes = ta.getResourceId(R.styleable.SlidingMenu_shadowDrawable, -1);
-		if (shadowRes != -1) {
-			setShadowDrawable(shadowRes);
-		}
-		int shadowWidth = (int) ta.getDimension(R.styleable.SlidingMenu_shadowWidth, 0);
-		setShadowWidth(shadowWidth);
-		boolean fadeEnabled = ta.getBoolean(R.styleable.SlidingMenu_fadeEnabled, true);
-		setFadeEnabled(fadeEnabled);
-		float fadeDeg = ta.getFloat(R.styleable.SlidingMenu_fadeDegree, 0.33f);
-		setFadeDegree(fadeDeg);
-		boolean selectorEnabled = ta.getBoolean(R.styleable.SlidingMenu_selectorEnabled, false);
-		setSelectorEnabled(selectorEnabled);
-		int selectorRes = ta.getResourceId(R.styleable.SlidingMenu_selectorDrawable, -1);
-		if (selectorRes != -1)
-			setSelectorDrawable(selectorRes);
-		ta.recycle();
+//		// now style everything!
+//		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SlidingMenu);
+//		// set the above and behind views if defined in xml
+//		int mode = ta.getInt(R.styleable.SlidingMenu_mode, LEFT);
+//		setMode(mode);
+//		int viewAbove = ta.getResourceId(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_viewAbove, -1);
+//		if (viewAbove != -1) {
+//			setContent(viewAbove);
+//		} else {
+//			setContent(new FrameLayout(context));
+//		}
+//		int viewBehind = ta.getResourceId(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_viewBehind, -1);
+//		if (viewBehind != -1) {
+//			setMenu(viewBehind);
+//		} else {
+//			setMenu(new FrameLayout(context));
+//		}
+//		int touchModeAbove = ta.getInt(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_touchModeAbove, TOUCHMODE_MARGIN);
+//		setTouchModeAbove(touchModeAbove);
+//		int touchModeBehind = ta.getInt(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_touchModeBehind, TOUCHMODE_MARGIN);
+//		setTouchModeBehind(touchModeBehind);
+//
+//		int offsetBehind = (int) ta.getDimension(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_behindOffset, -1);
+//		int widthBehind = (int) ta.getDimension(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_behindWidth, -1);
+//		if (offsetBehind != -1 && widthBehind != -1)
+//			throw new IllegalStateException("Cannot set both behindOffset and behindWidth for a SlidingMenu");
+//		else if (offsetBehind != -1)
+//			setBehindOffset(offsetBehind);
+//		else if (widthBehind != -1)
+//			setBehindWidth(widthBehind);
+//		else
+//			setBehindOffset(0);
+//		float scrollOffsetBehind = ta.getFloat(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_behindScrollScale, 0.33f);
+//		setBehindScrollScale(scrollOffsetBehind);
+//		int shadowRes = ta.getResourceId(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_shadowDrawable, -1);
+//		if (shadowRes != -1) {
+//			setShadowDrawable(shadowRes);
+//		}
+//		int shadowWidth = (int) ta.getDimension(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_shadowWidth, 0);
+//		setShadowWidth(shadowWidth);
+//		boolean fadeEnabled = ta.getBoolean(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_fadeEnabled, true);
+//		setFadeEnabled(fadeEnabled);
+//		float fadeDeg = ta.getFloat(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_fadeDegree, 0.33f);
+//		setFadeDegree(fadeDeg);
+//		boolean selectorEnabled = ta.getBoolean(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_selectorEnabled, false);
+//		setSelectorEnabled(selectorEnabled);
+//		int selectorRes = ta.getResourceId(com.jeremyfeinstein.slidingmenu.lib.R.styleable.SlidingMenu_selectorDrawable, -1);
+//		if (selectorRes != -1)
+//			setSelectorDrawable(selectorRes);
+//		ta.recycle();
 	}
 
 	/**
 	 * Attaches the SlidingMenu to an entire Activity
-	 * 
+	 *
 	 * @param activity the Activity
 	 * @param slideStyle either SLIDING_CONTENT or SLIDING_WINDOW
 	 */
@@ -294,7 +294,7 @@ public class SlidingMenu extends RelativeLayout {
 
 	/**
 	 * Attaches the SlidingMenu to an entire Activity
-	 * 
+	 *
 	 * @param activity the Activity
 	 * @param slideStyle either SLIDING_CONTENT or SLIDING_WINDOW
 	 * @param actionbarOverlay whether or not the ActionBar is overlaid
@@ -468,7 +468,7 @@ public class SlidingMenu extends RelativeLayout {
 			setSlidingEnabled(false);
 			mViewAbove.setCustomViewBehind(null);
 			mViewAbove.setCurrentItem(1);
-			//			mViewBehind.setCurrentItem(0);	
+			//			mViewBehind.setCurrentItem(0);
 		} else {
 			mViewAbove.setCurrentItem(1);
 			//			mViewBehind.setCurrentItem(1);
@@ -555,7 +555,7 @@ public class SlidingMenu extends RelativeLayout {
 	public boolean isMenuShowing() {
 		return mViewAbove.getCurrentItem() == 0 || mViewAbove.getCurrentItem() == 2;
 	}
-	
+
 	/**
 	 * Checks if is the behind view showing.
 	 *
@@ -571,7 +571,7 @@ public class SlidingMenu extends RelativeLayout {
 	 * @return The margin on the right of the screen that the behind view scrolls to
 	 */
 	public int getBehindOffset() {
-		return ((RelativeLayout.LayoutParams)mViewBehind.getLayoutParams()).rightMargin;
+		return ((LayoutParams)mViewBehind.getLayoutParams()).rightMargin;
 	}
 
 	/**
@@ -660,7 +660,7 @@ public class SlidingMenu extends RelativeLayout {
 	public float getBehindScrollScale() {
 		return mViewBehind.getScrollScale();
 	}
-	
+
 	/**
 	 * Gets the touch mode margin threshold
 	 * @return the touch mode margin threshold
@@ -668,7 +668,7 @@ public class SlidingMenu extends RelativeLayout {
 	public int getTouchmodeMarginThreshold() {
 		return mViewBehind.getMarginThreshold();
 	}
-	
+
 	/**
 	 * Set the touch mode margin threshold
 	 * @param touchmodeMarginThreshold
@@ -883,17 +883,17 @@ public class SlidingMenu extends RelativeLayout {
 		mOpenListener = listener;
 	}
 
-	
+
 	/**
 	 * Sets the OnOpenListner for secondary menu  {@link OnOpenListener#onOpen() OnOpenListener.onOpen()} will be called when the secondary SlidingMenu is opened
-	 * 
+	 *
 	 * @param listener the new OnOpenListener
 	 */
-	
+
 	public void setSecondaryOnOpenListner(OnOpenListener listener) {
 		mSecondaryOpenListner = listener;
 	}
-	
+
 	/**
 	 * Sets the OnCloseListener. {@link OnCloseListener#onClose() OnCloseListener.onClose()} will be called when any one of the SlidingMenu is closed
 	 *
@@ -948,8 +948,8 @@ public class SlidingMenu extends RelativeLayout {
 			out.writeInt(mItem);
 		}
 
-		public static final Parcelable.Creator<SavedState> CREATOR =
-				new Parcelable.Creator<SavedState>() {
+		public static final Creator<SavedState> CREATOR =
+				new Creator<SavedState>() {
 			public SavedState createFromParcel(Parcel in) {
 				return new SavedState(in);
 			}
