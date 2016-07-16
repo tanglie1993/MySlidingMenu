@@ -86,8 +86,6 @@ public class CustomViewAbove extends ViewGroup {
 	//	private int mMode;
 	private boolean mEnabled = true;
 
-	private OnPageChangeListener mInternalPageChangeListener;
-
 
 	private List<View> mIgnoredViews = new ArrayList<View>();
 
@@ -159,21 +157,6 @@ public class CustomViewAbove extends ViewGroup {
 		mTouchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(configuration);
 		mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
 		mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
-		setInternalPageChangeListener(new SimpleOnPageChangeListener() {
-			public void onPageSelected(int position) {
-				if (mViewBehind != null) {
-					switch (position) {
-						case 0:
-						case 2:
-							mViewBehind.setChildrenEnabled(true);
-							break;
-						case 1:
-							mViewBehind.setChildrenEnabled(false);
-							break;
-					}
-				}
-			}
-		});
 
 		final float density = context.getResources().getDisplayMetrics().density;
 		mFlingDistance = (int) (MIN_DISTANCE_FOR_FLING * density);
@@ -216,9 +199,6 @@ public class CustomViewAbove extends ViewGroup {
 		final boolean dispatchSelected = mCurItem != item;
 		mCurItem = item;
 		final int destX = getDestScrollX(mCurItem);
-		if (dispatchSelected && mInternalPageChangeListener != null) {
-			mInternalPageChangeListener.onPageSelected(item);
-		}
 		if (smoothScroll) {
 			smoothScrollTo(destX, 0, velocity);
 		} else {
@@ -227,19 +207,6 @@ public class CustomViewAbove extends ViewGroup {
 		}
 	}
 
-
-
-	/**
-	 * Set a separate OnPageChangeListener for internal use by the support library.
-	 *
-	 * @param listener Listener to set
-	 * @return The old listener that was set, if any.
-	 */
-	OnPageChangeListener setInternalPageChangeListener(OnPageChangeListener listener) {
-		OnPageChangeListener oldListener = mInternalPageChangeListener;
-		mInternalPageChangeListener = listener;
-		return oldListener;
-	}
 
 
 	// We want the duration of the page snap animation to be influenced by the distance that
@@ -438,9 +405,7 @@ public class CustomViewAbove extends ViewGroup {
 	 * @param offsetPixels Value in pixels indicating the offset from position.
 	 */
 	protected void onPageScrolled(int position, float offset, int offsetPixels) {
-		if (mInternalPageChangeListener != null) {
-			mInternalPageChangeListener.onPageScrolled(position, offset, offsetPixels);
-		}
+
 	}
 
 	private void completeScroll() {
