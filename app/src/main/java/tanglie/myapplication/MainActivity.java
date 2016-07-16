@@ -2,6 +2,7 @@ package tanglie.myapplication;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,13 @@ public class MainActivity extends Activity {
         contentParent.removeView(content);
         contentParent.addView(mSlidingMenu);
         mSlidingMenu.setContent(content);
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                mSlidingMenu.getContent().scrollTo(-200, 0);
+//            }
+//        }, 2000);
     }
 
 }
