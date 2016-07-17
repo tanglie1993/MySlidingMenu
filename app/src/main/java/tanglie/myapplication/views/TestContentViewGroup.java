@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
+import android.widget.Scroller;
 
 /**
  * Created by Administrator on 2016/7/16 0016.
@@ -12,13 +14,27 @@ import android.widget.RelativeLayout;
 public class TestContentViewGroup extends ViewGroup {
 
     private View content;
+    private Scroller scroller;
+    private Interpolator decelerateInterpolator = new Interpolator() {
+        public float getInterpolation(float t) {
+            t -= 1.0f;
+            return t * t * t * t * t + 1.0f;
+        }
+    };
+
 
     public TestContentViewGroup(Context context) {
         this(context, null);
+        init(context);
     }
 
     public TestContentViewGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
+    }
+
+    private void init(Context context) {
+        scroller = new Scroller(context, decelerateInterpolator);
     }
 
     @Override
@@ -41,4 +57,17 @@ public class TestContentViewGroup extends ViewGroup {
         final int contentHeight = getChildMeasureSpec(heightMeasureSpec, 0, LayoutParams.MATCH_PARENT);
         content.measure(contentWidth, contentHeight);
     }
+
+    @Override
+    public void computeScroll() {
+        if (scroller.computeScrollOffset()) {
+            scrollTo(scroller.getCurrX(), 0);
+            postInvalidate();
+        }
+    }
+
+    public void smoothScrollBy(int startX, int distance){
+        scroller.startScroll(startX, 0, distance, 0);
+    }
+
 }

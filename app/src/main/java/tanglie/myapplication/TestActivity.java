@@ -1,6 +1,5 @@
 package tanglie.myapplication;
 
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -49,7 +48,7 @@ public class TestActivity extends AppCompatActivity {
     private int mPointerId;
 
     private static final int PIXELS_PER_SECOND = 1000;
-    private static final int MAX_VELOCITY = 100000;
+    private static final int MAX_VELOCITY = 10000;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -65,8 +64,7 @@ public class TestActivity extends AppCompatActivity {
             case MotionEvent.ACTION_UP:
                 mVelocityTracker.computeCurrentVelocity(PIXELS_PER_SECOND, MAX_VELOCITY);
                 final float velocityX = mVelocityTracker.getXVelocity(mPointerId);
-                final float velocityY = mVelocityTracker.getYVelocity(mPointerId);
-                recordInfo(velocityX, velocityY);
+                smoothScroll(-velocityX, -event.getX());
                 releaseVelocityTracker();
                 break;
             case MotionEvent.ACTION_CANCEL:
@@ -95,8 +93,9 @@ public class TestActivity extends AppCompatActivity {
 
     private static final String sFormatStr = "velocityX=%f\nvelocityY=%f";
 
-    private void recordInfo(final float velocityX, final float velocityY) {
-        System.out.println("recordInfo: velocityX " + velocityX + "velocityY " + velocityY);
+    private void smoothScroll(final float velocityX, final float currentX) {
+        testViewGroup.getContent().smoothScrollBy((int) currentX, (int) velocityX / 10);
+        System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);
 
     }
 }
