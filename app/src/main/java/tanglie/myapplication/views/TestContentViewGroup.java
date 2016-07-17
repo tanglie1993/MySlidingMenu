@@ -21,6 +21,8 @@ public class TestContentViewGroup extends ViewGroup {
     private Scroller scroller;
     private int viewGroupRightEndX;
 
+    private static final int LEFT_TOUCH_MARGIN = 100;
+
     private Interpolator decelerateInterpolator = new Interpolator() {
         public float getInterpolation(float t) {
             t -= 1.0f;
@@ -41,8 +43,8 @@ public class TestContentViewGroup extends ViewGroup {
 
     private void init(Context context) {
         scroller = new Scroller(context, decelerateInterpolator);
-        WindowManager wm = ((Activity) context).getWindowManager();
 
+        WindowManager wm = ((Activity) context).getWindowManager();
         int width = wm.getDefaultDisplay().getWidth();
         viewGroupRightEndX = width - 300;
     }
@@ -84,20 +86,23 @@ public class TestContentViewGroup extends ViewGroup {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        System.out.println("onTouchEvent");
+//        System.out.println("onTouchEvent");
+        if(!isStartDraggingAllowed(event)){
+            return false;
+        }
         addMovement(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                System.out.println("onTouchEvent ACTION_DOWN");
+//                System.out.println("onTouchEvent ACTION_DOWN");
                 //求第一个触点的id， 此时可能有多个触点，但至少一个
                 mPointerId = event.getPointerId(0);
                 return true;
             case MotionEvent.ACTION_MOVE:
-                System.out.println("onTouchEvent ACTION_MOVE");
+//                System.out.println("onTouchEvent ACTION_MOVE");
                 scrollTo((int) -event.getX(), 0);
                 break;
             case MotionEvent.ACTION_UP:
-                System.out.println("onTouchEvent ACTION_UP");
+//                System.out.println("onTouchEvent ACTION_UP");
                 mVelocityTracker.computeCurrentVelocity(PIXELS_PER_SECOND, MAX_VELOCITY);
                 final float velocityX = mVelocityTracker.getXVelocity(mPointerId);
                 smoothScroll(-velocityX, -event.getX());
@@ -110,6 +115,16 @@ public class TestContentViewGroup extends ViewGroup {
                 break;
         }
         return super.onTouchEvent(event);
+    }
+
+    private boolean isStartDraggingAllowed(MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            int currentX = getScrollX();
+            System.out.println("event.getX(): " + event.getX() + " getScrollX(): " + getScrollX());
+            return event.getX() > -currentX && event.getX() < -currentX + LEFT_TOUCH_MARGIN;
+        }else{
+            return true;
+        }
     }
 
     private void addMovement(final MotionEvent event) {
@@ -129,7 +144,7 @@ public class TestContentViewGroup extends ViewGroup {
 
     private void smoothScroll(final float velocityX, final float currentX) {
         scroller.startScroll((int) currentX, 0, - viewGroupRightEndX -(int) currentX, 0);
-        System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);
+//        System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);
 
     }
 
