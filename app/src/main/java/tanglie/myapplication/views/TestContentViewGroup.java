@@ -1,11 +1,13 @@
 package tanglie.myapplication.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
@@ -17,6 +19,8 @@ public class TestContentViewGroup extends ViewGroup {
 
     private View content;
     private Scroller scroller;
+    private int viewGroupRightEndX;
+
     private Interpolator decelerateInterpolator = new Interpolator() {
         public float getInterpolation(float t) {
             t -= 1.0f;
@@ -37,6 +41,10 @@ public class TestContentViewGroup extends ViewGroup {
 
     private void init(Context context) {
         scroller = new Scroller(context, decelerateInterpolator);
+        WindowManager wm = ((Activity) context).getWindowManager();
+
+        int width = wm.getDefaultDisplay().getWidth();
+        viewGroupRightEndX = width - 300;
     }
 
     @Override
@@ -120,7 +128,7 @@ public class TestContentViewGroup extends ViewGroup {
     }
 
     private void smoothScroll(final float velocityX, final float currentX) {
-        scroller.startScroll((int) currentX, 0, -(int) currentX, 0);
+        scroller.startScroll((int) currentX, 0, - viewGroupRightEndX -(int) currentX, 0);
         System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);
 
     }
