@@ -21,7 +21,7 @@ public class TestContentViewGroup extends ViewGroup {
     private Scroller scroller;
     private int viewGroupRightEndX;
 
-    private static final int LEFT_TOUCH_MARGIN = 100;
+    private static final int LEFT_TOUCH_MARGIN = 200;
 
     private Interpolator decelerateInterpolator = new Interpolator() {
         public float getInterpolation(float t) {
@@ -143,9 +143,14 @@ public class TestContentViewGroup extends ViewGroup {
     }
 
     private void smoothScroll(final float velocityX, final float currentX) {
-        scroller.startScroll((int) currentX, 0, - viewGroupRightEndX -(int) currentX, 0);
+//        System.out.println("velocityX * 0.3 + currentX： " + velocityX * 0.3 + currentX);
+//        System.out.println("LEFT_TOUCH_MARGIN / 2： " + LEFT_TOUCH_MARGIN / 2);
+        if(-(velocityX * 0.3 + currentX) > viewGroupRightEndX / 2){ // 用经验公式决定滚到最左边还是右边
+            scroller.startScroll((int) currentX, 0, - viewGroupRightEndX -(int) currentX, 0);
+        }else{
+            scroller.startScroll((int) currentX, 0, -(int) currentX, 0);
+        }
 //        System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);
-
     }
 
 }
