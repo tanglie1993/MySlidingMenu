@@ -2,6 +2,7 @@ package tanglie.myapplication.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -59,5 +60,4 @@ public class TestRootViewGroup extends RelativeLayout {
     public View getContent() {
         return content;
     }
-
 }

@@ -2,6 +2,8 @@ package tanglie.myapplication.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
@@ -52,7 +54,6 @@ public class TestContentViewGroup extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
-
         final int contentWidth = getChildMeasureSpec(widthMeasureSpec, 0, LayoutParams.MATCH_PARENT);
         final int contentHeight = getChildMeasureSpec(heightMeasureSpec, 0, LayoutParams.MATCH_PARENT);
         content.measure(contentWidth, contentHeight);
@@ -66,8 +67,62 @@ public class TestContentViewGroup extends ViewGroup {
         }
     }
 
-    public void smoothScrollBy(int startX, int distance){
-        scroller.startScroll(startX, 0, distance, 0);
+    private VelocityTracker mVelocityTracker;
+
+    private int mPointerId;
+
+    private static final int PIXELS_PER_SECOND = 1000;
+    private static final int MAX_VELOCITY = 100000;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        System.out.println("onTouchEvent");
+        addMovement(event);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                System.out.println("onTouchEvent ACTION_DOWN");
+                //求第一个触点的id， 此时可能有多个触点，但至少一个
+                mPointerId = event.getPointerId(0);
+                return true;
+            case MotionEvent.ACTION_MOVE:
+                System.out.println("onTouchEvent ACTION_MOVE");
+                scrollTo((int) -event.getX(), 0);
+                break;
+            case MotionEvent.ACTION_UP:
+                System.out.println("onTouchEvent ACTION_UP");
+                mVelocityTracker.computeCurrentVelocity(PIXELS_PER_SECOND, MAX_VELOCITY);
+                final float velocityX = mVelocityTracker.getXVelocity(mPointerId);
+                smoothScroll(-velocityX, -event.getX());
+                releaseVelocityTracker();
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                releaseVelocityTracker();
+                break;
+            default:
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    private void addMovement(final MotionEvent event) {
+        if(null == mVelocityTracker) {
+            mVelocityTracker = VelocityTracker.obtain();
+        }
+        mVelocityTracker.addMovement(event);
+    }
+
+    private void releaseVelocityTracker() {
+        if(null != mVelocityTracker) {
+            mVelocityTracker.clear();
+            mVelocityTracker.recycle();
+            mVelocityTracker = null;
+        }
+    }
+
+    private void smoothScroll(final float velocityX, final float currentX) {
+        scroller.startScroll((int) currentX, 0, -(int) currentX, 0);
+        System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);
+
     }
 
 }
