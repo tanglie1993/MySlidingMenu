@@ -11,46 +11,46 @@ import android.widget.RelativeLayout;
  */
 public class TestViewGroup extends RelativeLayout {
 
-    private View menu;
-    private View content;
+    private TestMenuViewGroup menu;
+    private TestContentViewGroup content;
 
     public TestViewGroup(Context context) {
         super(context);
+        init(context);
     }
 
     public TestViewGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
     public TestViewGroup(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context);
     }
 
     public TestViewGroup(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        init(context);
     }
 
-//    @Override
-//    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-//
-//    }
+    private void init(Context context) {
+        menu = new TestMenuViewGroup(context);
+        content = new TestContentViewGroup(context);
+        addView(this.menu, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        addView(this.content, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+    }
+
 
     public void setMenu(View menu) {
-        this.menu = menu;
-        addView(menu, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+//        this.menu = menu;
+        this.menu.setMenu(menu);
+//        addView(this.menu, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
 
     public void setContent(View content) {
-        this.content = content;
-        addView(content, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+//        this.content = content;
+        this.content.setContent(content);
+//        addView(this.content, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
-
-    public View getMenu() {
-        return menu;
-    }
-
-    public View getContent() {
-        return content;
-    }
-
 }
