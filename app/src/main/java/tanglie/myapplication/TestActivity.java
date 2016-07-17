@@ -7,6 +7,8 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import tanglie.myapplication.views.TestViewGroup;
 
@@ -19,9 +21,22 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_test);
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(TestActivity.this, "activity_test_button", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         testViewGroup = (TestViewGroup) LayoutInflater.from(this).inflate(R.layout.layout_test_view_group, null);
-        testViewGroup.setMenu(getLayoutInflater().inflate(R.layout.test_menu_frame, null));
+        View menu = getLayoutInflater().inflate(R.layout.test_menu_frame, null);
+        menu.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(TestActivity.this, "menu_button", Toast.LENGTH_SHORT).show();
+            }
+        });
+        testViewGroup.setMenu(menu);
 
         ViewGroup contentParent = (ViewGroup) findViewById(android.R.id.content);
         View content = contentParent.getChildAt(0);
@@ -33,13 +48,6 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                testViewGroup.getMenu().scrollTo(-100, 0);
-//                testViewGroup.getContent().scrollTo(-200, 0);
-//            }
-//        }, 2000);
     }
 
     private VelocityTracker mVelocityTracker;
@@ -90,8 +98,6 @@ public class TestActivity extends AppCompatActivity {
             mVelocityTracker = null;
         }
     }
-
-    private static final String sFormatStr = "velocityX=%f\nvelocityY=%f";
 
     private void smoothScroll(final float velocityX, final float currentX) {
         testViewGroup.getContent().smoothScrollBy((int) currentX, getScrollDx(velocityX));

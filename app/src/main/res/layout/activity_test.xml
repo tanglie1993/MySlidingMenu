@@ -6,11 +6,11 @@
     android:background="#123456"
     tools:context="tanglie.myapplication.TestActivity">
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="activity_test"
-        android:id="@+id/textView"
+        android:text="TestActivity"
+        android:id="@+id/button"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 </RelativeLayout>
