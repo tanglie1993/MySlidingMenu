@@ -100,13 +100,13 @@ public class TestActivity extends AppCompatActivity {
     }
 
     private void smoothScroll(final float velocityX, final float currentX) {
-        testViewGroup.getContent().smoothScrollBy((int) currentX, getScrollDx(velocityX));
+        testViewGroup.getContent().smoothScrollBy((int) currentX, -(int) currentX);
         System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);
 
     }
 
-    private int getScrollDx(float velocityX) {
-        int absoluteValue = (int) (Math.sqrt(Math.abs(velocityX)) * 2); // 使用经验公式估算滑动距离
-        return velocityX > 0 ? absoluteValue: -absoluteValue;
-    }
+//    private int getScrollDx(float velocityX) {
+//        int absoluteValue = (int) (Math.sqrt(Math.abs(velocityX)) * 2); // 使用经验公式估算滑动距离
+//        return velocityX > 0 ? absoluteValue: -absoluteValue;
+//    }
 }
