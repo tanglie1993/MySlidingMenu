@@ -18,7 +18,7 @@ public class TestContentViewGroup extends ViewGroup {
     private Interpolator decelerateInterpolator = new Interpolator() {
         public float getInterpolation(float t) {
             t -= 1.0f;
-            return t * t * t * t * t + 1.0f;
+            return t * t * t + 1.0f;
         }
     };
 

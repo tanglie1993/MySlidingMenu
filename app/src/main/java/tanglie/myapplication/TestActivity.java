@@ -48,7 +48,7 @@ public class TestActivity extends AppCompatActivity {
     private int mPointerId;
 
     private static final int PIXELS_PER_SECOND = 1000;
-    private static final int MAX_VELOCITY = 10000;
+    private static final int MAX_VELOCITY = 100000;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -94,8 +94,13 @@ public class TestActivity extends AppCompatActivity {
     private static final String sFormatStr = "velocityX=%f\nvelocityY=%f";
 
     private void smoothScroll(final float velocityX, final float currentX) {
-        testViewGroup.getContent().smoothScrollBy((int) currentX, (int) velocityX / 10);
+        testViewGroup.getContent().smoothScrollBy((int) currentX, getScrollDx(velocityX));
         System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);
 
+    }
+
+    private int getScrollDx(float velocityX) {
+        int absoluteValue = (int) (Math.sqrt(Math.abs(velocityX)) * 2); // 使用经验公式估算滑动距离
+        return velocityX > 0 ? absoluteValue: -absoluteValue;
     }
 }
