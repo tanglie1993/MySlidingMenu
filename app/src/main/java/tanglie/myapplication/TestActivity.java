@@ -33,11 +33,12 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                testViewGroup.forceLayout();
-//            }
-//        }, 2000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                testViewGroup.getMenu().scrollTo(-100, 0);
+                testViewGroup.getContent().scrollTo(-200, 0);
+            }
+        }, 2000);
     }
 }

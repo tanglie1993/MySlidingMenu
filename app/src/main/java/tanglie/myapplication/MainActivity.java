@@ -37,12 +37,12 @@ public class MainActivity extends Activity {
         contentParent.addView(mSlidingMenu);
         mSlidingMenu.setContent(content);
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                mSlidingMenu.getContent().scrollTo(-200, 0);
-//            }
-//        }, 2000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSlidingMenu.getContent().scrollTo(-200, 0);
+            }
+        }, 2000);
     }
 
 }
