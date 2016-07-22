@@ -155,7 +155,7 @@ public class TestContentViewGroup extends ViewGroup {
         }else{
             scroller.startScroll((int) currentX, 0, -(int) currentX, 0);
         }
-        invalidate();.
+        invalidate();
 //        System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);
     }
 
