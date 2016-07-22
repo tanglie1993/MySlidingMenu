@@ -7,7 +7,10 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import tanglie.myapplication.views.TestViewGroup;
@@ -21,21 +24,13 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_test);
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(TestActivity.this, "activity_test_button", Toast.LENGTH_SHORT).show();
-            }
-        });
+        initContentViews();
+
 
         testViewGroup = (TestViewGroup) LayoutInflater.from(this).inflate(R.layout.layout_test_view_group, null);
         View menu = getLayoutInflater().inflate(R.layout.test_menu_frame, null);
-        menu.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(TestActivity.this, "menu_button", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        initMenu(menu);
+
         testViewGroup.setMenu(menu);
 
         ViewGroup contentParent = (ViewGroup) findViewById(android.R.id.content);
@@ -43,6 +38,24 @@ public class TestActivity extends AppCompatActivity {
         contentParent.removeView(content);
         contentParent.addView(testViewGroup);
         testViewGroup.setContent(content);
+    }
+
+//    private void initMenu(View menu) {
+//        ListView listView = (ListView) menu.findViewById(R.id.listView);
+//        String[] str_name = new String[] { "A", "B", "C"};
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+//                this, android.R.layout.simple_list_item_1,
+//                str_name);
+//        listView.setAdapter(arrayAdapter);
+//    }
+//
+    private void initContentViews() {
+        ListView listView = (ListView) findViewById(R.id.listView);
+        String[] str_name = new String[] { "A", "B", "C"};
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_list_item_1,
+                str_name);
+        listView.setAdapter(arrayAdapter);
     }
 
     @Override
