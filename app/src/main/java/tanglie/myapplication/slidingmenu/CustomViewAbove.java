@@ -186,22 +186,22 @@ public class CustomViewAbove extends ViewGroup {
 	}
 
 	void setCurrentItemInternal(int item, boolean smoothScroll, boolean always, int velocity) {
-		if (!always && mCurItem == item) {
-			setScrollingCacheEnabled(false);
-			return;
-		}
-
-		item = mViewBehind.getMenuPage(item);
-
-		final boolean dispatchSelected = mCurItem != item;
-		mCurItem = item;
-		final int destX = getDestScrollX(mCurItem);
-		if (smoothScroll) {
-			smoothScrollTo(destX, 0, velocity);
-		} else {
-			completeScroll();
-			scrollTo(destX, 0);
-		}
+//		if (!always && mCurItem == item) {
+//			setScrollingCacheEnabled(false);
+//			return;
+//		}
+//
+//		item = mViewBehind.getMenuPage(item);
+//
+//		final boolean dispatchSelected = mCurItem != item;
+//		mCurItem = item;
+//		final int destX = getDestScrollX(mCurItem);
+//		if (smoothScroll) {
+//			smoothScrollTo(0, 0, velocity);
+//		} else {
+//			completeScroll();
+//			scrollTo(destX, 0);
+//		}
 	}
 
 
@@ -578,29 +578,30 @@ public class CustomViewAbove extends ViewGroup {
 				}
 				break;
 			case MotionEvent.ACTION_UP:
-				if (mIsBeingDragged) {
-					final VelocityTracker velocityTracker = mVelocityTracker;
-					velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
-					int initialVelocity = (int) VelocityTrackerCompat.getXVelocity(
-							velocityTracker, mActivePointerId);
-					final int scrollX = getScrollX();
-					final float pageOffset = (float) (scrollX - getDestScrollX(mCurItem)) / getBehindWidth();
-					final int activePointerIndex = getPointerIndex(ev, mActivePointerId);
-					if (mActivePointerId != INVALID_POINTER) {
-						final float x = MotionEventCompat.getX(ev, activePointerIndex);
-						final int totalDelta = (int) (x - mInitialMotionX);
-						int nextPage = determineTargetPage(pageOffset, initialVelocity, totalDelta);
-						setCurrentItemInternal(nextPage, true, true, initialVelocity);
-					} else {
-						setCurrentItemInternal(mCurItem, true, true, initialVelocity);
-					}
-					mActivePointerId = INVALID_POINTER;
-					endDrag();
-				} else if (mQuickReturn && mViewBehind.menuTouchInQuickReturn(mContent, mCurItem, ev.getX() + mScrollX)) {
-					// close the menu
-					setCurrentItem(1);
-					endDrag();
-				}
+				smoothScrollTo(0, 0, 0);
+//				if (mIsBeingDragged) {
+//					final VelocityTracker velocityTracker = mVelocityTracker;
+//					velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
+//					int initialVelocity = (int) VelocityTrackerCompat.getXVelocity(
+//							velocityTracker, mActivePointerId);
+//					final int scrollX = getScrollX();
+//					final float pageOffset = (float) (scrollX - getDestScrollX(mCurItem)) / getBehindWidth();
+//					final int activePointerIndex = getPointerIndex(ev, mActivePointerId);
+//					if (mActivePointerId != INVALID_POINTER) {
+//						final float x = MotionEventCompat.getX(ev, activePointerIndex);
+//						final int totalDelta = (int) (x - mInitialMotionX);
+//						int nextPage = determineTargetPage(0, 0, 0);
+//						setCurrentItemInternal(nextPage, true, true, 0);
+//					} else {
+//						setCurrentItemInternal(mCurItem, true, true, initialVelocity);
+//					}
+//					mActivePointerId = INVALID_POINTER;
+//					endDrag();
+//				} else if (mQuickReturn && mViewBehind.menuTouchInQuickReturn(mContent, mCurItem, ev.getX() + mScrollX)) {
+//					// close the menu
+//					setCurrentItem(1);
+//					endDrag();
+//				}
 				break;
 			case MotionEvent.ACTION_CANCEL:
 				if (mIsBeingDragged) {
