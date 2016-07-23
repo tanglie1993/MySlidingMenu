@@ -21,6 +21,7 @@ public class TestContentViewGroup extends ViewGroup {
     private Scroller scroller;
     private int viewGroupRightEndX;
     private ViewGroup menu;
+    private boolean isBeingDragged;
 
     private static final int LEFT_TOUCH_MARGIN = 150;
 
@@ -85,50 +86,67 @@ public class TestContentViewGroup extends ViewGroup {
     private static final int PIXELS_PER_SECOND = 1000;
     private static final int MAX_VELOCITY = 100000;
 
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent event){
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event){
+        boolean consume = false;
+        if(onInterceptTouchEvent(event)){
+            consume = onTouchEvent(event);
+        }else{
+            consume = menu.dispatchTouchEvent(event);
+        }
 //        boolean result = super.dispatchTouchEvent(event);
 //        if(!result){
 //            menu.dispatchTouchEvent(event);
 //        }
-//        return result;
-//    }
+        return consume;
+    }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-//        boolean result = isStartDraggingAllowed(event);
-//        if(!result){
-//            menu.onInterceptTouchEvent(event);
-//        }
-        return isStartDraggingAllowed(event);
+        if(isBeingDragged){
+            return true;
+        }
+        return event.getX() > -getScrollX();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         System.out.println("onTouchEvent");
         if(event.getAction() == MotionEvent.ACTION_DOWN && !isStartDraggingAllowed(event)){
-            return false;
+            return true;
         }
         addMovement(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                isBeingDragged = true;
                 System.out.println("onTouchEvent ACTION_DOWN");
+                System.out.println("isBeingDragged = true");
                 //求第一个触点的id， 此时可能有多个触点，但至少一个
                 mPointerId = event.getPointerId(0);
                 break;
             case MotionEvent.ACTION_MOVE:
                 System.out.println("onTouchEvent ACTION_MOVE");
-                scrollTo((int) -event.getX(), 0);
+                if(isBeingDragged){
+                    scrollTo((int) -event.getX(), 0);
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 System.out.println("onTouchEvent ACTION_UP");
-                mVelocityTracker.computeCurrentVelocity(PIXELS_PER_SECOND, MAX_VELOCITY);
-                final float velocityX = mVelocityTracker.getXVelocity(mPointerId);
-                smoothScroll(-velocityX, -event.getX());
-                releaseVelocityTracker();
+                if(isBeingDragged){
+                    isBeingDragged = false;
+                    System.out.println("isBeingDragged = false");
+                    mVelocityTracker.computeCurrentVelocity(PIXELS_PER_SECOND, MAX_VELOCITY);
+                    final float velocityX = mVelocityTracker.getXVelocity(mPointerId);
+                    smoothScroll(-velocityX, -event.getX());
+                    releaseVelocityTracker();
+                }
                 break;
             case MotionEvent.ACTION_CANCEL:
-                releaseVelocityTracker();
+                if(isBeingDragged){
+                    isBeingDragged = false;
+                    System.out.println("isBeingDragged = false");
+                    releaseVelocityTracker();
+                }
                 break;
             default:
                 break;
