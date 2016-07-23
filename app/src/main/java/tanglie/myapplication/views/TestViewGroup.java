@@ -42,8 +42,9 @@ public class TestViewGroup extends RelativeLayout {
     }
 
 
-    public void setMenu(View menu) {
+    public void setMenu(ViewGroup menu) {
         this.menu.setMenu(menu);
+        this.content.setMenu(menu);
     }
 
     public void setContent(View content) {

@@ -20,6 +20,7 @@ public class TestContentViewGroup extends ViewGroup {
     private View content;
     private Scroller scroller;
     private int viewGroupRightEndX;
+    private ViewGroup menu;
 
     private static final int LEFT_TOUCH_MARGIN = 150;
 
@@ -84,8 +85,21 @@ public class TestContentViewGroup extends ViewGroup {
     private static final int PIXELS_PER_SECOND = 1000;
     private static final int MAX_VELOCITY = 100000;
 
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent event){
+//        boolean result = super.dispatchTouchEvent(event);
+//        if(!result){
+//            menu.dispatchTouchEvent(event);
+//        }
+//        return result;
+//    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
+//        boolean result = isStartDraggingAllowed(event);
+//        if(!result){
+//            menu.onInterceptTouchEvent(event);
+//        }
         return isStartDraggingAllowed(event);
     }
 
@@ -120,6 +134,10 @@ public class TestContentViewGroup extends ViewGroup {
                 break;
         }
         return true;
+    }
+
+    public void setMenu(ViewGroup menu) {
+        this.menu = menu;
     }
 
     private boolean isStartDraggingAllowed(MotionEvent event) {

@@ -2,6 +2,7 @@ package tanglie.myapplication.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -11,7 +12,7 @@ import android.widget.RelativeLayout;
  */
 public class TestMenuViewGroup extends ViewGroup {
 
-    private View menu;
+    private ViewGroup menu;
 
     public TestMenuViewGroup(Context context) {
         this(context, null);
@@ -26,7 +27,7 @@ public class TestMenuViewGroup extends ViewGroup {
         menu.layout(l, t, r, b);
     }
 
-    public void setMenu(View v) {
+    public void setMenu(ViewGroup v) {
         if (menu != null)
             this.removeView(menu);
         menu = v;
@@ -42,4 +43,19 @@ public class TestMenuViewGroup extends ViewGroup {
         menu.measure(contentWidth, contentHeight);
 
     }
+
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent event){
+//        return menu.dispatchTouchEvent(event);
+//    }
+//
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent event) {
+//        return menu.onInterceptTouchEvent(event);
+//    }
+//
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        return menu.onTouchEvent(event);
+//    }
 }
