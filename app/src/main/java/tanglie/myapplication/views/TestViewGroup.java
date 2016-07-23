@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import tanglie.myapplication.util.ScreenUtils;
+
 /**
  * Created by Administrator on 2016/7/16 0016.
  */
@@ -44,7 +46,7 @@ public class TestViewGroup extends RelativeLayout {
 
     public void setMenu(ViewGroup menu) {
         this.menu.setMenu(menu);
-        this.content.setMenu(menu);
+        this.content.setMenu(this.menu);
     }
 
     public void setContent(View content) {

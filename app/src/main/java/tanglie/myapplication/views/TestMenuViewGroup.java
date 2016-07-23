@@ -5,7 +5,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
+import android.widget.Scroller;
+
+import tanglie.myapplication.util.ScreenUtils;
 
 /**
  * Created by Administrator on 2016/7/16 0016.
@@ -13,13 +17,29 @@ import android.widget.RelativeLayout;
 public class TestMenuViewGroup extends ViewGroup {
 
     private ViewGroup menu;
+    private Scroller scroller;
+    private int currentX;
+
+    private Interpolator decelerateInterpolator = new Interpolator() {
+        public float getInterpolation(float t) {
+            t -= 1.0f;
+            return t * t * t + 1.0f;
+        }
+    };
+
 
     public TestMenuViewGroup(Context context) {
         this(context, null);
+        init(context);
     }
 
     public TestMenuViewGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
+    }
+
+    private void init(Context context) {
+        scroller = new Scroller(context, decelerateInterpolator);
     }
 
     @Override
@@ -44,18 +64,24 @@ public class TestMenuViewGroup extends ViewGroup {
 
     }
 
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent event){
-//        return menu.dispatchTouchEvent(event);
-//    }
-//
-//    @Override
-//    public boolean onInterceptTouchEvent(MotionEvent event) {
-//        return menu.onInterceptTouchEvent(event);
-//    }
-//
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        return menu.onTouchEvent(event);
-//    }
+    @Override
+    public void computeScroll() {
+        if (scroller.computeScrollOffset()) {
+            scrollTo(scroller.getCurrX(), 0);
+            postInvalidate();
+        }
+    }
+
+    @Override
+    public void scrollTo(int x, int y) {
+        super.scrollTo(x, y);
+        currentX = x;
+    }
+
+    public void smoothScrollTo(int x) {
+        scroller.startScroll(currentX, 0, -currentX - x, 0);
+        System.out.println("currentX: " + currentX + " x:" +x);
+        invalidate();
+    }
+
 }

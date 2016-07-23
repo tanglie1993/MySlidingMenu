@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import tanglie.myapplication.views.TestMenuViewGroup;
 import tanglie.myapplication.views.TestViewGroup;
 
 public class TestActivity extends AppCompatActivity {

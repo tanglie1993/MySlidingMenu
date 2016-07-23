@@ -12,6 +12,8 @@ import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
+import tanglie.myapplication.util.ScreenUtils;
+
 /**
  * Created by Administrator on 2016/7/16 0016.
  */
@@ -20,7 +22,7 @@ public class TestContentViewGroup extends ViewGroup {
     private View content;
     private Scroller scroller;
     private int viewGroupRightEndX;
-    private ViewGroup menu;
+    private TestMenuViewGroup menu;
     private boolean isBeingDragged;
 
     private static final int LEFT_TOUCH_MARGIN = 150;
@@ -127,6 +129,11 @@ public class TestContentViewGroup extends ViewGroup {
             case MotionEvent.ACTION_MOVE:
                 System.out.println("onTouchEvent ACTION_MOVE");
                 if(isBeingDragged){
+                    int menuTargetX = (int) -event.getX() + viewGroupRightEndX;
+                    if(menuTargetX < 0){
+                        menuTargetX = 0;
+                    }
+                    menu.scrollTo(menuTargetX, 0);
                     scrollTo((int) -event.getX(), 0);
                 }
                 break;
@@ -154,7 +161,7 @@ public class TestContentViewGroup extends ViewGroup {
         return true;
     }
 
-    public void setMenu(ViewGroup menu) {
+    public void setMenu(TestMenuViewGroup menu) {
         this.menu = menu;
     }
 
@@ -188,8 +195,10 @@ public class TestContentViewGroup extends ViewGroup {
 //        System.out.println("LEFT_TOUCH_MARGIN / 2： " + LEFT_TOUCH_MARGIN / 2);
         if(-(velocityX * 0.3 + currentX) > viewGroupRightEndX / 2){ // 用经验公式决定滚到最左边还是右边
             scroller.startScroll((int) currentX, 0, - viewGroupRightEndX -(int) currentX, 0);
+            menu.smoothScrollTo(0);
         }else{
             scroller.startScroll((int) currentX, 0, -(int) currentX, 0);
+            menu.smoothScrollTo(-ScreenUtils.getScreenWidth(content.getContext()));
         }
         invalidate();
 //        System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);
