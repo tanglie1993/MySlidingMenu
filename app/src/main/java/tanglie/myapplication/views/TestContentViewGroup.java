@@ -26,6 +26,7 @@ public class TestContentViewGroup extends ViewGroup {
     private boolean isBeingDragged;
 
     private static final int LEFT_TOUCH_MARGIN = 150;
+    private static final float MENU_SCROLL_SCALE = 0.25f;
 
     private Interpolator decelerateInterpolator = new Interpolator() {
         public float getInterpolation(float t) {
@@ -130,11 +131,7 @@ public class TestContentViewGroup extends ViewGroup {
             case MotionEvent.ACTION_MOVE:
                 System.out.println("onTouchEvent ACTION_MOVE");
                 if(isBeingDragged){
-                    int menuTargetX = (int) -event.getX() + viewGroupRightEndX;
-                    if(menuTargetX < 0){
-                        menuTargetX = 0;
-                    }
-                    menu.scrollTo(menuTargetX, 0);
+                    menu.scrollTo(getMenuTargetX(-event.getX()), 0);
                     int contentTargetX = (int) -event.getX();
                     if(contentTargetX < maxTargetX){
                         contentTargetX = maxTargetX;
@@ -166,6 +163,14 @@ public class TestContentViewGroup extends ViewGroup {
                 break;
         }
         return true;
+    }
+
+    private int getMenuTargetX(float touchEventX) {
+        int menuTargetX = (int) ((touchEventX + viewGroupRightEndX) * MENU_SCROLL_SCALE);
+        if(menuTargetX < 0){
+            menuTargetX = 0;
+        }
+        return menuTargetX;
     }
 
     public void setMenu(TestMenuViewGroup menu) {
