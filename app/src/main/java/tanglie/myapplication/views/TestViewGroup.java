@@ -17,6 +17,7 @@ public class TestViewGroup extends RelativeLayout {
     private TestContentViewGroup content;
     public static final int MENU_RIGHT_MARGIN = 300;
 
+
     public TestViewGroup(Context context) {
         super(context);
         init(context);
@@ -43,7 +44,8 @@ public class TestViewGroup extends RelativeLayout {
         LayoutParams menuParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         menuParams.rightMargin = MENU_RIGHT_MARGIN;
         addView(this.menu, menuParams);
-        addView(this.content, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        LayoutParams contentParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        addView(this.content, contentParams);
     }
 
 
