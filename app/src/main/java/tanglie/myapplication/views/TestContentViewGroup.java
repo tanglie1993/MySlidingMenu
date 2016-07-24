@@ -216,7 +216,7 @@ public class TestContentViewGroup extends ViewGroup {
             menu.smoothScrollTo(0);
         }else{
             scroller.startScroll((int) currentX, 0, -(int) currentX, 0);
-            menu.smoothScrollTo(-TestViewGroup.MENU_RIGHT_MARGIN);
+            menu.smoothScrollTo((int) ((-ScreenUtils.getScreenWidth(getContext()) + TestViewGroup.MENU_RIGHT_MARGIN) * MENU_SCROLL_SCALE));
         }
         invalidate();
     }
