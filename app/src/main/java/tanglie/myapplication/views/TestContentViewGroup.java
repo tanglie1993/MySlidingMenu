@@ -50,7 +50,7 @@ public class TestContentViewGroup extends ViewGroup {
 
         WindowManager wm = ((Activity) context).getWindowManager();
         int width = wm.getDefaultDisplay().getWidth();
-        viewGroupRightEndX = width - 300;
+        viewGroupRightEndX = width - TestViewGroup.MENU_RIGHT_MARGIN;
     }
 
     @Override
@@ -198,7 +198,7 @@ public class TestContentViewGroup extends ViewGroup {
             menu.smoothScrollTo(0);
         }else{
             scroller.startScroll((int) currentX, 0, -(int) currentX, 0);
-            menu.smoothScrollTo(-ScreenUtils.getScreenWidth(content.getContext()));
+            menu.smoothScrollTo(-ScreenUtils.getScreenWidth(content.getContext()) + TestViewGroup.MENU_RIGHT_MARGIN);
         }
         invalidate();
 //        System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);

@@ -44,7 +44,7 @@ public class TestActivity extends AppCompatActivity {
 
     private void initMenu(View menu) {
         ListView listView = (ListView) menu.findViewById(R.id.listView);
-        String[] str_name = new String[] { "A", "B", "C"};
+        String[] str_name = new String[] {"A", "B", "C"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_list_item_1,
                 str_name);
