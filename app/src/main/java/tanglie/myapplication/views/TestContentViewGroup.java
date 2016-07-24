@@ -211,17 +211,14 @@ public class TestContentViewGroup extends ViewGroup {
     }
 
     private void smoothScroll(final float velocityX, final float currentX) {
-//        System.out.println("velocityX * 0.3 + currentX： " + velocityX * 0.3 + currentX);
-//        System.out.println("LEFT_TOUCH_MARGIN / 2： " + LEFT_TOUCH_MARGIN / 2);
         if(-(velocityX * 0.3 + currentX) > viewGroupRightEndX / 2){ // 用经验公式决定滚到最左边还是右边
             scroller.startScroll((int) currentX, 0, - viewGroupRightEndX -(int) currentX, 0);
             menu.smoothScrollTo(0);
         }else{
             scroller.startScroll((int) currentX, 0, -(int) currentX, 0);
-            menu.smoothScrollTo(-ScreenUtils.getScreenWidth(getContext()) + TestViewGroup.MENU_RIGHT_MARGIN);
+            menu.smoothScrollTo(-TestViewGroup.MENU_RIGHT_MARGIN);
         }
         invalidate();
-//        System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);
     }
 
 }
