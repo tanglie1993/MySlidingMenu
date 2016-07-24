@@ -118,6 +118,7 @@ public class TestContentViewGroup extends ViewGroup {
             return true;
         }
         addMovement(event);
+        int maxTargetX = TestViewGroup.MENU_RIGHT_MARGIN - ScreenUtils.getScreenWidth(getContext());
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 isBeingDragged = true;
@@ -134,13 +135,19 @@ public class TestContentViewGroup extends ViewGroup {
                         menuTargetX = 0;
                     }
                     menu.scrollTo(menuTargetX, 0);
-                    scrollTo((int) -event.getX(), 0);
+                    int contentTargetX = (int) -event.getX();
+                    if(contentTargetX < maxTargetX){
+                        contentTargetX = maxTargetX;
+                    }
+                    scrollTo(contentTargetX, 0);
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 System.out.println("onTouchEvent ACTION_UP");
-                if(isBeingDragged){
+                if(isBeingDragged) {
                     isBeingDragged = false;
+                }
+                if((int) -event.getX() > maxTargetX){
                     System.out.println("isBeingDragged = false");
                     mVelocityTracker.computeCurrentVelocity(PIXELS_PER_SECOND, MAX_VELOCITY);
                     final float velocityX = mVelocityTracker.getXVelocity(mPointerId);
@@ -198,7 +205,7 @@ public class TestContentViewGroup extends ViewGroup {
             menu.smoothScrollTo(0);
         }else{
             scroller.startScroll((int) currentX, 0, -(int) currentX, 0);
-            menu.smoothScrollTo(-ScreenUtils.getScreenWidth(content.getContext()) + TestViewGroup.MENU_RIGHT_MARGIN);
+            menu.smoothScrollTo(-ScreenUtils.getScreenWidth(getContext()) + TestViewGroup.MENU_RIGHT_MARGIN);
         }
         invalidate();
 //        System.out.println("smoothScroll: velocityX " + velocityX + "currentX " + currentX);
