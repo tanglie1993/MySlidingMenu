@@ -67,8 +67,6 @@ public class TestContentViewGroup extends ViewGroup {
         if (content != null)
             this.removeView(content);
         content = v;
-        View shadow = LayoutInflater.from(getContext()).inflate(R.layout.content_shadow, null);
-        ((ViewGroup) v).addView(shadow, new RelativeLayout.LayoutParams(CONTENT_LEFT_MARGIN, RelativeLayout.LayoutParams.MATCH_PARENT));
         RelativeLayout.LayoutParams contentParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         contentParams.leftMargin = CONTENT_LEFT_MARGIN;
         addView(v, contentParams);
