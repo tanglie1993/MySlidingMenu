@@ -6,6 +6,33 @@
     android:background="#123456"
     tools:context="tanglie.myapplication.TestActivity">
 
+    <tanglie.myapplication.views.TestMenuViewGroup
+        android:id="@+id/menu"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:background="#888888">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="endButton"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/endButton"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="menuButton"
+            android:id="@+id/menuButton"/>
+
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/menuButton"
+            android:id="@+id/menuListView"/>
+
+    </tanglie.myapplication.views.TestMenuViewGroup>
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

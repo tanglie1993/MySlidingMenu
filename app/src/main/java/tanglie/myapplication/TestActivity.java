@@ -30,11 +30,19 @@ public class TestActivity extends AppCompatActivity {
 
 
         testViewGroup = (TestViewGroup) LayoutInflater.from(this).inflate(R.layout.layout_test_view_group, null);
-        View menu = getLayoutInflater().inflate(R.layout.test_menu_frame, null);
+//        View menu = getLayoutInflater().inflate(R.layout.test_menu_frame, null);
+//        initMenu(menu);
+        ViewGroup menu = (ViewGroup) findViewById(R.id.menu);
         initMenu(menu);
+        ViewGroup contentParent = (ViewGroup) findViewById(android.R.id.content);
+        ViewGroup content = (ViewGroup) contentParent.getChildAt(0);
+        content.removeView(menu);
+        testViewGroup.setMenu(menu);
 
-        testViewGroup.setMenu((ViewGroup) menu);
+        addContent();
+    }
 
+    private void addContent() {
         ViewGroup contentParent = (ViewGroup) findViewById(android.R.id.content);
         View content = contentParent.getChildAt(0);
         contentParent.removeView(content);
@@ -43,7 +51,7 @@ public class TestActivity extends AppCompatActivity {
     }
 
     private void initMenu(View menu) {
-        ListView listView = (ListView) menu.findViewById(R.id.listView);
+        ListView listView = (ListView) menu.findViewById(R.id.menuListView);
         String[] str_name = new String[] {"A", "B", "C"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_list_item_1,

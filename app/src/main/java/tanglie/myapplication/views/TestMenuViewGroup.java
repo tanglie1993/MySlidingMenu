@@ -14,7 +14,7 @@ import tanglie.myapplication.util.ScreenUtils;
 /**
  * Created by Administrator on 2016/7/16 0016.
  */
-public class TestMenuViewGroup extends ViewGroup {
+public class TestMenuViewGroup extends RelativeLayout {
 
     private ViewGroup menu;
     private Scroller scroller;
@@ -44,7 +44,11 @@ public class TestMenuViewGroup extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        menu.layout(l, t, r, b);
+        if(menu != null){
+            menu.layout(l, t, r, b);
+        }else{
+            super.onLayout(changed, l, t, r, b);
+        }
     }
 
     public void setMenu(ViewGroup v) {
@@ -56,12 +60,15 @@ public class TestMenuViewGroup extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
 
-        final int contentWidth = getChildMeasureSpec(widthMeasureSpec, 0, LayoutParams.MATCH_PARENT);
-        final int contentHeight = getChildMeasureSpec(heightMeasureSpec, 0, LayoutParams.MATCH_PARENT);
-        menu.measure(contentWidth, contentHeight);
-
+        if(menu != null){
+            setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
+            final int contentWidth = getChildMeasureSpec(widthMeasureSpec, 0, LayoutParams.MATCH_PARENT);
+            final int contentHeight = getChildMeasureSpec(heightMeasureSpec, 0, LayoutParams.MATCH_PARENT);
+            menu.measure(contentWidth, contentHeight);
+        }else{
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
     }
 
     @Override
