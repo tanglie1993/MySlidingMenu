@@ -124,7 +124,7 @@ public class TestContentViewGroup extends ViewGroup {
     public boolean onTouchEvent(MotionEvent event) {
         System.out.println("onTouchEvent");
         if(event.getAction() == MotionEvent.ACTION_DOWN && !isStartDraggingAllowed(event)){
-            return true;
+            return false;
         }
         addMovement(event);
         int maxTargetX = TestViewGroup.MENU_RIGHT_MARGIN - ScreenUtils.getScreenWidth(getContext());
