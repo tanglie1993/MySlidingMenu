@@ -1,25 +1,17 @@
 package tanglie.myapplication;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.VelocityTracker;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import tanglie.myapplication.views.TestMenuViewGroup;
 import tanglie.myapplication.views.TestViewGroup;
 
 public class TestActivity extends AppCompatActivity {
-
-    private TestViewGroup testViewGroup;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,8 +19,7 @@ public class TestActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_test);
         initContentViews();
-        testViewGroup = (TestViewGroup) LayoutInflater.from(this).inflate(R.layout.layout_test_view_group, null);
-
+        TestViewGroup testViewGroup = TestViewGroup.getInstance(this);
         ViewGroup menu = (ViewGroup) findViewById(R.id.menu);
         initMenu(menu);
         testViewGroup.setContentView(this, menu);

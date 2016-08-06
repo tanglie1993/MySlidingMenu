@@ -3,6 +3,7 @@ package tanglie.myapplication.views;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -15,6 +16,10 @@ import tanglie.myapplication.util.ScreenUtils;
  * Created by Administrator on 2016/7/16 0016.
  */
 public class TestViewGroup extends RelativeLayout {
+
+    public static TestViewGroup getInstance(Context context){
+        return (TestViewGroup) LayoutInflater.from(context).inflate(R.layout.layout_test_view_group, null);
+    }
 
     private TestMenuViewGroup menu;
     private TestContentViewGroup content;
