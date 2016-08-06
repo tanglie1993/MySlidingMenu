@@ -1,11 +1,14 @@
 package tanglie.myapplication.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import tanglie.myapplication.R;
+import tanglie.myapplication.TestActivity;
 import tanglie.myapplication.util.ScreenUtils;
 
 /**
@@ -62,7 +65,22 @@ public class TestViewGroup extends RelativeLayout {
         return menu;
     }
 
-    public TestContentViewGroup getContent() {
-        return content;
+    public void setContentView(Activity activity, ViewGroup menu) {
+        ViewGroup contentParent = (ViewGroup) activity.findViewById(android.R.id.content);
+        ViewGroup content = (ViewGroup) contentParent.getChildAt(0);
+        content.removeView(menu);
+        setMenu(menu);
+
+        addContent(activity);
+    }
+
+
+    private void addContent(Activity activity) {
+        ViewGroup contentParent = (ViewGroup) activity.findViewById(android.R.id.content);
+        View content = contentParent.getChildAt(0);
+        content.setClickable(true);
+        contentParent.removeView(content);
+        contentParent.addView(this);
+        setContent(content);
     }
 }

@@ -27,28 +27,14 @@ public class TestActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_test);
         initContentViews();
-
-
         testViewGroup = (TestViewGroup) LayoutInflater.from(this).inflate(R.layout.layout_test_view_group, null);
-//        View menu = getLayoutInflater().inflate(R.layout.test_menu_frame, null);
-//        initMenu(menu);
+
         ViewGroup menu = (ViewGroup) findViewById(R.id.menu);
         initMenu(menu);
-        ViewGroup contentParent = (ViewGroup) findViewById(android.R.id.content);
-        ViewGroup content = (ViewGroup) contentParent.getChildAt(0);
-        content.removeView(menu);
-        testViewGroup.setMenu(menu);
-
-        addContent();
+        testViewGroup.setContentView(this, menu);
     }
 
-    private void addContent() {
-        ViewGroup contentParent = (ViewGroup) findViewById(android.R.id.content);
-        View content = contentParent.getChildAt(0);
-        contentParent.removeView(content);
-        contentParent.addView(testViewGroup);
-        testViewGroup.setContent(content);
-    }
+
 
     private void initMenu(View menu) {
         ListView listView = (ListView) menu.findViewById(R.id.menuListView);
@@ -60,7 +46,7 @@ public class TestActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(TestActivity.this, "onClick", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TestActivity.this, "menu onClick " + position, Toast.LENGTH_SHORT).show();
             }
         });
         menu.findViewById(R.id.menuButton).setOnClickListener(new View.OnClickListener() {
@@ -78,6 +64,12 @@ public class TestActivity extends AppCompatActivity {
                 this, android.R.layout.simple_list_item_1,
                 str_name);
         listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(TestActivity.this, "content onClick " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
