@@ -2,19 +2,15 @@ package tanglie.myapplication.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
-import tanglie.myapplication.util.ScreenUtils;
-
 /**
  * Created by Administrator on 2016/7/16 0016.
  */
-public class TestMenuViewGroup extends RelativeLayout {
+public class CustomMenu extends RelativeLayout {
 
     private ViewGroup menu;
     private Scroller scroller;
@@ -28,12 +24,12 @@ public class TestMenuViewGroup extends RelativeLayout {
     };
 
 
-    public TestMenuViewGroup(Context context) {
+    public CustomMenu(Context context) {
         this(context, null);
         init(context);
     }
 
-    public TestMenuViewGroup(Context context, AttributeSet attrs) {
+    public CustomMenu(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }

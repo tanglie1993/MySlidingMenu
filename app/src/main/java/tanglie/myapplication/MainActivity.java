@@ -1,48 +1,71 @@
 package tanglie.myapplication;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import tanglie.myapplication.slidingmenu.SlidingMenu;
+import tanglie.myapplication.views.SlidingMenu;
 
-
-public class MainActivity extends Activity {
-
-    private SlidingMenu mSlidingMenu;
+public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.responsive_content_frame);
+        setContentView(R.layout.activity_test);
+        initContentViews();
+        SlidingMenu testViewGroup = SlidingMenu.getInstance(this);
+        ViewGroup menu = (ViewGroup) findViewById(R.id.menu);
+        initMenu(menu);
+        testViewGroup.setContentView(this, menu);
+    }
 
-        mSlidingMenu = (SlidingMenu) LayoutInflater.from(this).inflate(R.layout.slidingmenumain, null);
-        mSlidingMenu.setMenu(getLayoutInflater().inflate(R.layout.menu_frame, null));
-        mSlidingMenu.setSlidingEnabled(true);
-        mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
-        mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        mSlidingMenu.setShadowWidthRes(R.dimen.shadow_width);
-        mSlidingMenu.setShadowDrawable(R.drawable.shadow);
-        mSlidingMenu.setBehindScrollScale(0.25f);
-        mSlidingMenu.setFadeDegree(0.25f);
 
-        ViewGroup contentParent = (ViewGroup) findViewById(android.R.id.content);
-        View content = contentParent.getChildAt(0);
-        contentParent.removeView(content);
-        contentParent.addView(mSlidingMenu);
-        mSlidingMenu.setContent(content);
-
-        new Handler().postDelayed(new Runnable() {
+    private void initMenu(View menu) {
+        ListView listView = (ListView) menu.findViewById(R.id.menuListView);
+        String[] str_name = new String[] {"A", "B", "C"};
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_list_item_1,
+                str_name);
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void run() {
-                mSlidingMenu.getContent().scrollTo(-200, 0);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this, "menu onClick " + position, Toast.LENGTH_SHORT).show();
             }
-        }, 2000);
+        });
+        menu.findViewById(R.id.menuButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "onClick", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+//
+    private void initContentViews() {
+        ListView listView = (ListView) findViewById(R.id.listView);
+        String[] str_name = new String[] { "A", "B", "C"};
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_list_item_1,
+                str_name);
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this, "content onClick " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
     }
 
 }

@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#123456"
-    tools:context="tanglie.myapplication.TestActivity">
+    tools:context="tanglie.myapplication.MainActivity">
 
-    <tanglie.myapplication.views.TestMenuViewGroup
+    <tanglie.myapplication.views.CustomMenu
         android:id="@+id/menu"
         android:layout_width="100dp"
         android:layout_height="match_parent"
@@ -31,7 +31,7 @@
             android:layout_below="@+id/menuButton"
             android:id="@+id/menuListView"/>
 
-    </tanglie.myapplication.views.TestMenuViewGroup>
+    </tanglie.myapplication.views.CustomMenu>
 
     <ListView
         android:layout_width="wrap_content"

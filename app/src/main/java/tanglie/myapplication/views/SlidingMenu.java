@@ -9,46 +9,44 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import tanglie.myapplication.R;
-import tanglie.myapplication.TestActivity;
-import tanglie.myapplication.util.ScreenUtils;
 
 /**
  * Created by Administrator on 2016/7/16 0016.
  */
-public class TestViewGroup extends RelativeLayout {
+public class SlidingMenu extends RelativeLayout {
 
-    public static TestViewGroup getInstance(Context context){
-        return (TestViewGroup) LayoutInflater.from(context).inflate(R.layout.layout_test_view_group, null);
+    public static SlidingMenu getInstance(Context context){
+        return (SlidingMenu) LayoutInflater.from(context).inflate(R.layout.layout_test_view_group, null);
     }
 
-    private TestMenuViewGroup menu;
-    private TestContentViewGroup content;
+    private CustomMenu menu;
+    private CustomContentView content;
     public static final int MENU_RIGHT_MARGIN = 300;
 
 
-    public TestViewGroup(Context context) {
+    public SlidingMenu(Context context) {
         super(context);
         init(context);
     }
 
-    public TestViewGroup(Context context, AttributeSet attrs) {
+    public SlidingMenu(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public TestViewGroup(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SlidingMenu(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
-    public TestViewGroup(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SlidingMenu(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
 
     private void init(Context context) {
-        menu = new TestMenuViewGroup(context);
-        content = new TestContentViewGroup(context);
+        menu = new CustomMenu(context);
+        content = new CustomContentView(context);
         LayoutParams menuParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         menuParams.rightMargin = MENU_RIGHT_MARGIN;
         addView(this.menu, menuParams);
@@ -66,7 +64,7 @@ public class TestViewGroup extends RelativeLayout {
         this.content.setContent(content);
     }
 
-    public TestMenuViewGroup getMenu() {
+    public CustomMenu getMenu() {
         return menu;
     }
 

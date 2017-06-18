@@ -3,7 +3,6 @@ package tanglie.myapplication.views;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -13,20 +12,19 @@ import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
-import tanglie.myapplication.R;
 import tanglie.myapplication.util.ScreenUtils;
 
 /**
  * Created by Administrator on 2016/7/16 0016.
  */
-public class TestContentViewGroup extends ViewGroup {
+public class CustomContentView extends ViewGroup {
 
     public static final int CONTENT_LEFT_MARGIN = 10;
 
     private View content;
     private Scroller scroller;
     private int viewGroupRightEndX;
-    private TestMenuViewGroup menu;
+    private CustomMenu menu;
     private boolean isBeingDragged;
 
     private static final int LEFT_TOUCH_MARGIN = 150;
@@ -40,12 +38,12 @@ public class TestContentViewGroup extends ViewGroup {
     };
 
 
-    public TestContentViewGroup(Context context) {
+    public CustomContentView(Context context) {
         this(context, null);
         init(context);
     }
 
-    public TestContentViewGroup(Context context, AttributeSet attrs) {
+    public CustomContentView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
@@ -55,7 +53,7 @@ public class TestContentViewGroup extends ViewGroup {
 
         WindowManager wm = ((Activity) context).getWindowManager();
         int width = wm.getDefaultDisplay().getWidth();
-        viewGroupRightEndX = width - TestViewGroup.MENU_RIGHT_MARGIN;
+        viewGroupRightEndX = width - SlidingMenu.MENU_RIGHT_MARGIN;
     }
 
     @Override
@@ -122,7 +120,7 @@ public class TestContentViewGroup extends ViewGroup {
             return true;
         }
         addMovement(event);
-        int maxTargetX = TestViewGroup.MENU_RIGHT_MARGIN - ScreenUtils.getScreenWidth(getContext());
+        int maxTargetX = SlidingMenu.MENU_RIGHT_MARGIN - ScreenUtils.getScreenWidth(getContext());
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if(isStartDraggingAllowed(event)){
@@ -178,7 +176,7 @@ public class TestContentViewGroup extends ViewGroup {
         return menuTargetX;
     }
 
-    public void setMenu(TestMenuViewGroup menu) {
+    public void setMenu(CustomMenu menu) {
         this.menu = menu;
     }
 
@@ -213,7 +211,7 @@ public class TestContentViewGroup extends ViewGroup {
             menu.smoothScrollTo(0);
         }else{
             scroller.startScroll((int) currentX, 0, -(int) currentX, 0);
-            menu.smoothScrollTo((int) ((-ScreenUtils.getScreenWidth(getContext()) + TestViewGroup.MENU_RIGHT_MARGIN) * MENU_SCROLL_SCALE));
+            menu.smoothScrollTo((int) ((-ScreenUtils.getScreenWidth(getContext()) + SlidingMenu.MENU_RIGHT_MARGIN) * MENU_SCROLL_SCALE));
         }
         invalidate();
     }
